@@ -18,7 +18,7 @@ if "%choice%"=="1" (
     )
     git add .
     git commit -m "!commitMsg!"
-    git push origin master
+    git push origin main
     goto end
 ) else if "%choice%"=="2" (
     git pull origin master
