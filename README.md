@@ -1,7 +1,5 @@
 # 多智能体协作配送仿真系统 (Multi-Agent Collaborative Delivery Simulation)
 
-![Simulation Screenshot](https://user-images.githubusercontent.com/your-username/your-repo/assets/simulation_demo.gif)  
-*(在这里替换为您自己的仿真截图或 GIF 动图)*
 
 这是一个基于 Python 的多智能体系统（MAS）仿真平台，旨在模拟一个复杂的无人机、无人车和机器狗协同工作的城市物流配送场景。系统能够动态生成复杂的随机地图，处理一系列配送任务，并实时可视化整个过程。
 
