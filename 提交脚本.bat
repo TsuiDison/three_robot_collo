@@ -21,13 +21,13 @@ if "%choice%"=="1" (
     git push origin main
     goto end
 ) else if "%choice%"=="2" (
-    git pull origin master
-    git merge origin/master
+    git pull origin main
+    git merge origin/main
     goto end
 ) else if "%choice%"=="3" (
     echo Discarding local changes and pulling the latest version...
     git reset --hard HEAD
-    git pull origin master
+    git pull origin main
     goto end
 ) else if "%choice%"=="4" (
     echo Setting HTTP/HTTPS proxy for terminal acceleration...
