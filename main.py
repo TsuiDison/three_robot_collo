@@ -1,99 +1,59 @@
+# main.py
 # -*- coding: utf-8 -*-
-"""
-主程序模块
-启动多智能体协作配送系统 - 简化版本
-"""
 
-import threading
+import yaml
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from map_system import Map
-from agent import create_random_agents
 from delivery_task import DeliveryTask
+from multi_agent_coordination import MultiAgentCoordinationSystem
+from visualization import DeliveryVisualizer
 
-
-class SimpleDeliverySystem:
-    """简化的配送系统"""
-    
-    def __init__(self, map_instance):
-        self.map = map_instance
-        self.agents = create_random_agents(map_instance.width, map_instance.height, 
-                                         num_dogs=2, num_vehicles=2, num_drones=2)
-        self.tasks = []
-        self.feedback = []
-        
-        self.feedback.append(f"系统初始化完成，共有 {len(self.agents)} 个智能体")
-        
-    def add_task(self, task):
-        """添加任务"""
-        self.tasks.append(task)
-        self.feedback.append(f"新任务添加: 从 {task.start_pos} 到 {task.goal_pos}")
-        
-        # 简单的任务分配：分配给第一个空闲的智能体
-        for agent in self.agents:
-            if agent.can_handle_task(task):
-                if agent.assign_task(task):
-                    self.feedback.append(f"任务已分配给 {agent.agent_id}")
-                    break
-        else:
-            self.feedback.append("暂无可用智能体处理此任务")
-    
-    def update_system(self):
-        """更新系统状态"""
-        for agent in self.agents:
-            agent.update()
-    
-    def get_system_status(self):
-        """获取系统状态"""
-        idle_count = sum(1 for agent in self.agents if agent.state.value == "idle")
-        busy_count = len(self.agents) - idle_count
-        
-        return {
-            'total_agents': len(self.agents),
-            'idle_agents': idle_count,
-            'busy_agents': busy_count,
-            'pending_tasks': len([t for t in self.tasks if not hasattr(t, 'completed')]),
-            'completed_tasks': len([t for t in self.tasks if hasattr(t, 'completed')])
-        }
-
+def load_tasks_from_yaml(filepath: str) -> list[DeliveryTask]:
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            tasks_data = yaml.safe_load(file)
+            if not tasks_data: return []
+            return [ DeliveryTask( task_id=item['id'], goal_pos=tuple(item['goal_pos']), weight=item.get('weight', 1.0), urgency=item.get('urgency', 1) ) for item in tasks_data ]
+    except Exception as e:
+        print(f"加载或解析YAML文件时出错: {e}")
+        return []
 
 def main():
-    """运行仿真的主函数"""
-    # 创建地图
-    map_instance = Map(width=100, height=100)
+    print("正在初始化仿真环境...")
+    real_map = Map()
+    print("真实地图创建完成。")
+    coord_system = MultiAgentCoordinationSystem(real_map)
+    print("协调系统初始化完成。")
+
+    tasks = load_tasks_from_yaml('tasks.yaml')
+    if tasks:
+        print(f"成功加载 {len(tasks)} 个任务到队列。")
+        for task in tasks:
+            coord_system.add_task(task)
     
-    # 创建简化配送系统
-    delivery_system = SimpleDeliverySystem(map_instance)
+    # 启动后台世界引擎
+    coord_system.start()
+    print("协调系统已启动，后台引擎开始运转...")
+
+    visualizer = DeliveryVisualizer(coord_system)
+    visualizer.start_animation()
     
-    # 添加示例任务
-    sample_task = DeliveryTask(
-        (10, 10), (90, 90),
-        weight=2, time_window=100, urgency=3, safety=2
+    # --- FuncAnimation 现在使用 blit=False ---
+    # 更新函数现在只负责画图，不负责更新世界状态
+    ani = animation.FuncAnimation(
+        visualizer.fig, 
+        visualizer._update_frame, # 直接调用可视化的帧更新函数
+        init_func=visualizer._init_animation,
+        interval=33, # 尝试以接近 30 FPS 的速度渲染
+        blit=True,
+        cache_frame_data=False
     )
-    delivery_system.add_task(sample_task)
-    
-    print("简化配送系统已启动")
-    print(f"地图大小: {map_instance.width}x{map_instance.height}")
-    print(f"智能体数量: {len(delivery_system.agents)}")
-    
-    # 运行几次更新循环来测试系统
-    for i in range(10):
-        delivery_system.update_system()
-        status = delivery_system.get_system_status()
-        print(f"步骤 {i+1}: 空闲智能体 {status['idle_agents']}, 忙碌智能体 {status['busy_agents']}")
-        
-        # 输出反馈信息
-        if delivery_system.feedback:
-            print("系统反馈:")
-            for feedback in delivery_system.feedback:
-                print(f"  - {feedback}")
-            delivery_system.feedback = []  # 清空已显示的反馈
-    print("\n简化版本测试完成！")
-    print("注意：这是最简版本，缺少可视化和高级功能")
-    print("后续将逐步添加探索系统、共享地图知识库等功能")
+    plt.show()
 
-
-if __name__ == "__main__":
-    main()
-
+    print("可视化窗口已关闭...")
+    coord_system.stop()
+    print("仿真已结束。")
 
 if __name__ == "__main__":
     main()

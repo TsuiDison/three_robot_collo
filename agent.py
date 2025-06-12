@@ -1,177 +1,140 @@
+# agent.py
 # -*- coding: utf-8 -*-
-"""
-智能体模块
-定义机器狗、无人车、无人机三种智能体
-"""
 
-import random
 import math
-from enum import Enum
-from typing import List, Tuple, Optional
+from typing import Tuple, Optional
 from delivery_task import DeliveryTask
-
-
-class AgentState(Enum):
-    """智能体状态枚举"""
-    IDLE = "idle"          # 空闲
-    MOVING_TO_PICKUP = "moving_to_pickup"    # 前往取货点
-    PICKING_UP = "picking_up"                # 取货中
-    MOVING_TO_DELIVERY = "moving_to_delivery"  # 前往配送点
-    DELIVERING = "delivering"                # 配送中
-    RETURNING = "returning"                  # 返回基地
-
+from vehicle import Drone, Car, RobotDog
 
 class Agent:
-    """智能体基类"""
-    
-    def __init__(self, agent_id: str, agent_type: str, position: Tuple[int, int], 
-                 max_weight: float, max_speed: float, energy_consumption: float):
+    def __init__(self, agent_id: str, position: Tuple[int, int], capabilities: dict, coord_system_ref):
         self.agent_id = agent_id
-        self.agent_type = agent_type
+        self.start_position = position
         self.position = position
-        self.max_weight = max_weight
-        self.max_speed = max_speed
-        self.energy_consumption = energy_consumption
-        self.current_weight = 0.0
-        self.energy = 100.0
-        self.state = AgentState.IDLE
-        self.current_task = None
-        self.task_queue = []        
-        self.target_position = None
+        self.capabilities = capabilities
+        self.state = "idle"
+        self.current_task: Optional[DeliveryTask] = None
+        self.vehicle = None
+        self.exploration_radius = 5
+        self.coord_system = coord_system_ref
+
+    # --- 核心修改：移除线程相关方法，添加 update() ---
+    def update(self):
+        """由协调器调用的主更新方法，取代了 _agent_loop"""
+        # 1. 如果在移动，就前进一步
+        if self.state in ["delivering", "returning"]:
+            self.follow_path()
         
-    def can_handle_task(self, task: DeliveryTask) -> bool:
-        """检查是否能处理指定任务"""
-        # 检查任务是否有weight属性，如果没有则使用默认值
-        task_weight = getattr(task, 'weight', getattr(task, 'cargo_weight', 1.0))
-        return (self.state == AgentState.IDLE and 
-                task_weight <= self.max_weight and
-                self.energy > 20)  # 保留足够能量
-    
-    def assign_task(self, task: DeliveryTask):
-        """分配任务给智能体"""
-        if self.can_handle_task(task):
+        # 2. 然后，在当前新位置进行探索
+        self.explore_surroundings()
+
+    def follow_path(self):
+        # ...
+        # --- 核心修改：循环移动，直到到达路点 ---
+        # 为了在一个 update() 调用中移动完 agent.speed 的距离
+        # 我们需要在这里加一个循环
+        
+        # 计算本次 update 调用中，这个 agent 总共应该移动多远
+        # time.sleep(0.1) 对应 100ms, interval=100 也是 100ms
+        # 所以每次更新，移动的距离就是 speed * 0.1
+        distance_to_move_this_frame = self.capabilities['speed'] * 0.1
+
+        moved_distance = 0
+        while moved_distance < distance_to_move_this_frame:
+            if self.vehicle.current_waypoint_index >= len(self.vehicle.path):
+                # 路径提前走完，退出循环
+                # 状态切换的逻辑移到循环外
+                break 
+
+            next_waypoint = self.vehicle.path[self.vehicle.current_waypoint_index]
+            
+            # --- 调用修改后的 move_towards ---
+            self.vehicle.move_towards(next_waypoint)
+            self.position = self.vehicle.current_pos
+            
+            # 累加移动距离
+            # step_distance 在 vehicle.py 中是 0.5
+            moved_distance += 0.5 
+            
+            dist_to_waypoint = math.hypot(self.position[0] - next_waypoint[0], self.position[1] - next_waypoint[1])
+            if dist_to_waypoint < 0.5: # 如果离路点非常近
+                self.vehicle.current_waypoint_index += 1
+
+        if self.vehicle.current_waypoint_index >= len(self.vehicle.path):
+            if self.state == "delivering":
+                print(f"[{self.agent_id}] 送货至 {self.position} 完成。")
+                # --- 核心修改：向协调器上报任务完成 ---
+                self.coord_system.report_task_completion(self.current_task)
+                self.decide_and_start_return_trip()
+            elif self.state == "returning":
+                print(f"[{self.agent_id}] 已返回待命点 {self.position}。进入空闲状态。")
+                if self.current_task: self.current_task.completed = True
+                self.state = "idle"; self.current_task = None; self.vehicle = None
+            return
+
+        next_waypoint = self.vehicle.path[self.vehicle.current_waypoint_index]
+        self.vehicle.move_towards(next_waypoint)
+        self.position = self.vehicle.current_pos
+        
+        dist_to_waypoint = math.hypot(self.position[0] - next_waypoint[0], self.position[1] - next_waypoint[1])
+        if dist_to_waypoint < self.vehicle.speed:
+            self.vehicle.current_waypoint_index += 1
+
+    def decide_and_start_return_trip(self):
+        warehouse_pos = self.coord_system.warehouse_pos
+        relay_pos = self.coord_system.relay_station_pos
+        
+        path_to_warehouse, cost_to_warehouse = self.coord_system.plan_path_for_agent(self, self.position, warehouse_pos, return_cost=True)
+        path_to_relay, cost_to_relay = self.coord_system.plan_path_for_agent(self, self.position, relay_pos, return_cost=True)
+
+        go_to_relay = False
+        if self.capabilities['type'] == 'car':
+            if cost_to_relay < cost_to_warehouse * 0.7: go_to_relay = True
+        else:
+            if cost_to_relay < cost_to_warehouse: go_to_relay = True
+        
+        return_target, return_path = (relay_pos, path_to_relay) if go_to_relay else (warehouse_pos, path_to_warehouse)
+        
+        if return_path:
+            self.state = "returning"
+            self.vehicle.path = return_path; self.vehicle.current_waypoint_index = 0
+            self.vehicle.goal_pos = return_target
+        else:
+            self.state = "idle"; self.vehicle = None
+
+    def assign_task(self, task: DeliveryTask, path: list) -> bool:
+        if self.state == "idle":
             self.current_task = task
-            self.state = AgentState.MOVING_TO_PICKUP
-            self.target_position = task.start_pos
+            if self.capabilities['type'] == 'drone': self.vehicle = Drone(self.position, task.goal_pos, max_speed=self.capabilities['speed'])
+            elif self.capabilities['type'] == 'car': self.vehicle = Car(self.position, task.goal_pos, max_speed=self.capabilities['speed'])
+            else: self.vehicle = RobotDog(self.position, task.goal_pos, max_speed=self.capabilities['speed'])
+            self.vehicle.path = path; self.vehicle.current_waypoint_index = 0
+            self.state = "delivering"
             return True
         return False
-    
-    def calculate_distance(self, position: Tuple[int, int]) -> float:
-        """计算到指定位置的距离"""
-        return math.sqrt((self.position[0] - position[0])**2 + 
-                        (self.position[1] - position[1])**2)
-    
-    def move_towards_target(self):
-        """向目标位置移动"""
-        if self.target_position is None:
-            return
-            
-        dx = self.target_position[0] - self.position[0]
-        dy = self.target_position[1] - self.position[1]
-        distance = math.sqrt(dx**2 + dy**2)
-        
-        if distance <= self.max_speed:
-            # 到达目标位置
-            self.position = self.target_position
-            self._handle_arrival()
-        else:
-            # 按速度移动
-            move_x = (dx / distance) * self.max_speed
-            move_y = (dy / distance) * self.max_speed
-            self.position = (self.position[0] + move_x, self.position[1] + move_y)
-          # 消耗能量
-        self.energy -= self.energy_consumption
-        
-    def _handle_arrival(self):
-        """处理到达目标位置的逻辑"""
-        if self.state == AgentState.MOVING_TO_PICKUP:
-            self.state = AgentState.PICKING_UP
-            # 获取任务重量，支持多种属性名称
-            task_weight = getattr(self.current_task, 'weight', 
-                                getattr(self.current_task, 'cargo_weight', 1.0))
-            self.current_weight += task_weight
-            # 设置配送目标
-            self.target_position = self.current_task.goal_pos
-            self.state = AgentState.MOVING_TO_DELIVERY
-        elif self.state == AgentState.MOVING_TO_DELIVERY:
-            self.state = AgentState.DELIVERING
-            task_weight = getattr(self.current_task, 'weight', 
-                                getattr(self.current_task, 'cargo_weight', 1.0))
-            self.current_weight -= task_weight
-            # 任务完成
-            self.current_task = None
-            self.state = AgentState.IDLE
-            self.target_position = None
-    
-    def update(self):
-        """更新智能体状态"""
-        if self.state in [AgentState.MOVING_TO_PICKUP, AgentState.MOVING_TO_DELIVERY]:
-            self.move_towards_target()
 
+    def explore_surroundings(self):
+        map_fragment = {}
+        real_map = self.coord_system.real_map
+        center_x, center_y = int(self.position[0]), int(self.position[1])
+        for dx in range(-self.exploration_radius, self.exploration_radius + 1):
+            for dy in range(-self.exploration_radius, self.exploration_radius + 1):
+                if dx**2 + dy**2 <= self.exploration_radius**2:
+                    x, y = center_x + dx, center_y + dy
+                    if 0 <= x < real_map.width and 0 <= y < real_map.height:
+                        map_fragment[(x, y)] = real_map.terrain[x, y]
+        if map_fragment: self.coord_system.report_map_fragment(map_fragment)
 
-class RobotDog(Agent):
-    """机器狗智能体"""
-    
-    def __init__(self, agent_id: str, position: Tuple[int, int]):
-        super().__init__(
-            agent_id=agent_id,
-            agent_type="robot_dog",
-            position=position,
-            max_weight=5.0,      # 最大载重5kg
-            max_speed=3.0,       # 速度3单位/步
-            energy_consumption=0.8  # 能耗
-        )
-        self.terrain_adaptability = 0.9  # 地形适应性
-
-
-class UnmannedVehicle(Agent):
-    """无人车智能体"""
-    
-    def __init__(self, agent_id: str, position: Tuple[int, int]):
-        super().__init__(
-            agent_id=agent_id,
-            agent_type="unmanned_vehicle",
-            position=position,
-            max_weight=50.0,     # 最大载重50kg
-            max_speed=5.0,       # 速度5单位/步
-            energy_consumption=1.2  # 能耗
-        )
-        self.road_preference = True  # 偏好道路行驶
-
-
-class Drone(Agent):
-    """无人机智能体"""
-    
-    def __init__(self, agent_id: str, position: Tuple[int, int]):
-        super().__init__(
-            agent_id=agent_id,
-            agent_type="drone",
-            position=position,
-            max_weight=2.0,      # 最大载重2kg
-            max_speed=8.0,       # 速度8单位/步（飞行速度快）
-            energy_consumption=2.0  # 能耗高
-        )
-        self.flight_altitude = 50  # 飞行高度
-
-
-def create_random_agents(map_width: int, map_height: int, 
-                        num_dogs: int = 2, num_vehicles: int = 2, num_drones: int = 2) -> List[Agent]:
-    """在地图上随机创建智能体"""
-    agents = []
-    
-    # 创建机器狗
-    for i in range(num_dogs):
-        position = (random.randint(0, map_width-1), random.randint(0, map_height-1))
-        agents.append(RobotDog(f"dog_{i+1}", position))
-    
-    # 创建无人车
-    for i in range(num_vehicles):
-        position = (random.randint(0, map_width-1), random.randint(0, map_height-1))
-        agents.append(UnmannedVehicle(f"vehicle_{i+1}", position))
-    
-    # 创建无人机
-    for i in range(num_drones):
-        position = (random.randint(0, map_width-1), random.randint(0, map_height-1))
-        agents.append(Drone(f"drone_{i+1}", position))
-    
-    return agents
+# --- Agent 子类定义保持不变，但 __init__ 不再需要启动线程 ---
+class DroneAgent(Agent):
+    def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
+        capabilities = { "type": "drone", "speed": 15.0, "weight_limit": 5.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 100, "can_cross_water": True } }
+        super().__init__(agent_id, position, capabilities, coord_system_ref)
+class CarAgent(Agent):
+    def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
+        capabilities = { "type": "car", "speed": 5.0, "weight_limit": 50.0, "terrain_rules": { "road_only": True, "can_climb": False, "climb_height": 0, "can_cross_water": False } }
+        super().__init__(agent_id, position, capabilities, coord_system_ref)
+class RobotDogAgent(Agent):
+    def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
+        capabilities = { "type": "robot_dog", "speed": 1.0, "weight_limit": 20.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 5, "can_cross_water": False } }
+        super().__init__(agent_id, position, capabilities, coord_system_ref)

@@ -48,24 +48,35 @@ WEATHER_EFFECTS = {
     'stormy': 2.0
 }
 
-# 地形类型配置
 TERRAIN_TYPES = {
     'normal': 0,
     'steep': 1,
     'narrow': 2,
     'hilly': 3,
     'water': 4,
-    'road': 5
+    'road': 5,
+    'building': 6 # 新增：为建筑分配一个ID
 }
 
-# 地形颜色配置
+# --- 地形颜色配置 (增加 building) ---
 TERRAIN_COLORS = {
-    'normal': '#90EE90',  # 浅绿色
-    'steep': '#8B4513',   # 棕色
-    'narrow': '#D2B48C',  # 棕褐色
-    'hilly': '#556B2F',   # 深橄榄绿
-    'water': '#87CEEB',   # 浅蓝色
-    'road': '#808080'     # 灰色
+    'normal': '#76B947',
+    'hilly': '#B8A073',
+    'steep': '#8B4513',
+    'water': '#5D9CEC',
+    'road': '#6E6E6E',
+    'building': '#BDBDBD', # 使用与之前相同的浅灰色
+    'unknown': '#1C1C1C'
+}
+
+
+# --- 新增：其他可视化颜色配置 ---
+VISUALIZATION_COLORS = {
+    'warehouse': '#FFD700',  # 金色
+    'relay_station': '#00FFFF', # 青色
+    'building': '#BDBDBD',   # 浅灰色建筑
+    'obstacle': '#FF6347',    # 番茄红障碍物，醒目
+    'agent_path': '#FFFF00'   # 亮黄色路径
 }
 
 # 可视化配置

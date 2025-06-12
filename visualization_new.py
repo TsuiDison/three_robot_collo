@@ -60,7 +60,7 @@ class DeliveryVisualizer:
         """后台更新系统状态"""
         while self.running:
             self.delivery_system.update_system()
-            time.sleep(0.1)  # 100ms更新一次
+            #time.sleep(0.01)  # 100ms更新一次
     
     def animate(self, frame):
         """动画更新函数"""

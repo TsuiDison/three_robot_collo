@@ -1,0 +1,115 @@
+# =============================================================
+# === 最终演示任务队列 v7 (20个任务，载重强制中转版) ===
+# 目标：通过精确控制任务重量，最大化地触发中转协作。
+# =============================================================
+
+# --- 波次 1: 简单的直达任务 (3个) ---
+# 作为基准，展示系统能正确处理简单情况。
+
+- id: T01_WARMUP_DRONE
+  goal_pos: [40, 70]
+  weight: 4.5       # < 无人机载重
+  urgency: 4
+
+- id: T02_WARMUP_DOG
+  goal_pos: [60, 20]
+  weight: 18.0      # > 无人机, < 机器狗载重
+  urgency: 2
+
+- id: T03_WARMUP_CAR
+  goal_pos: [20, 25]
+  weight: 48.0      # > 机器狗, < 汽车载重
+  urgency: 1
+
+# =============================================================
+# === 波次 2: 跨河中转风暴 (7个任务) ===
+# 重量全部 > 5.0 (无人机上限) 且 < 20.0 (机器狗上限)
+# 强制 "地面单位 -> 中转站 -> 无人机" 接力
+# =============================================================
+
+- id: C01_RIVER_MEDICAL
+  goal_pos: [85, 45]
+  weight: 12.0
+  urgency: 5
+
+- id: C02_RIVER_PARTS
+  goal_pos: [80, 60]
+  weight: 18.5
+  urgency: 4
+
+- id: C03_RIVER_EQUIPMENT
+  goal_pos: [90, 52]
+  weight: 15.0
+  urgency: 4
+
+- id: C04_RIVER_ANTENNA
+  goal_pos: [75, 30]
+  weight: 8.0
+  urgency: 3
+
+- id: C05_RIVER_BATTERIES
+  goal_pos: [95, 25]
+  weight: 19.8
+  urgency: 2
+  
+- id: C06_RIVER_SAMPLES
+  goal_pos: [78, 58]
+  weight: 10.0
+  urgency: 5
+
+- id: C07_RIVER_TOOLS
+  goal_pos: [82, 35]
+  weight: 16.0
+  urgency: 3
+
+# =============================================================
+# === 波次 3: 山区中转风暴 (7个任务) ===
+# 重量全部 > 20.0 (机器狗上限) 且 < 50.0 (汽车上限)
+# 强制 "汽车 -> 中转站 -> 机器狗" 接力
+# =============================================================
+
+- id: M01_MOUNTAIN_GENERATOR
+  goal_pos: [90, 90]
+  weight: 49.0
+  urgency: 4
+
+- id: M02_MOUNTAIN_SHELTER
+  goal_pos: [80, 85]
+  weight: 42.0
+  urgency: 3
+
+- id: M03_MOUNTAIN_PURIFIER
+  goal_pos: [75, 78]
+  weight: 35.0
+  urgency: 3
+  
+- id: M04_MOUNTAIN_CRATE
+  goal_pos: [92, 82]
+  weight: 46.5
+  urgency: 2
+
+- id: M05_MOUNTAIN_HEAVY_GEAR
+  goal_pos: [85, 95]
+  weight: 30.0
+  urgency: 4
+
+- id: M06_MOUNTAIN_TECH_BOX
+  goal_pos: [78, 88]
+  weight: 38.0
+  urgency: 3
+
+- id: M07_MOUNTAIN_BEACON
+  goal_pos: [94, 76]
+  weight: 40.0
+  urgency: 5
+
+# =============================================================
+# === 波次 4: 最终挑战 (3个任务) ===
+# 混合场景与无解任务
+# =============================================================
+
+- id: F01_FINAL_RELAY_LIGHT
+  goal_pos: [88, 88] # 山区轻物
+  weight: 4.0       # 这个任务无人机和机器狗都能直达，系统会计算最优成本
+  urgency: 5
+
