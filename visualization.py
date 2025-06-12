@@ -107,7 +107,9 @@ class DeliveryVisualizer:
         
         # 3. 更新任务标记 (使用池)
         with self.coord_system.main_task_queue.mutex:
-            tasks_to_show = list(self.coord_system.main_task_queue.queue)
+            tasks_to_show_tuples = list(self.coord_system.main_task_queue.queue)
+            # 我们只需要第三个元素，也就是 DeliveryTask 对象
+            tasks_to_show = [task_tuple[2] for task_tuple in tasks_to_show_tuples]
         for i, artist in enumerate(self.pending_task_pool):
             if i < len(tasks_to_show):
                 artist.set_offsets(tasks_to_show[i].original_goal); artist.set_color(tasks_to_show[i].color); artist.set_visible(True)

@@ -108,7 +108,7 @@ class Map:
 
         for i in range(len(city_nodes)):
             for j in range(i + 1, len(city_nodes)):
-                path = a_star_planning(road_planner_caps, self, city_nodes[i], city_nodes[j])
+                path, _ = a_star_planning(road_planner_caps, self, city_nodes[i], city_nodes[j])
                 if path:
                     for x, y in path:
                         if self.terrain[x, y] != self.terrain_types['water']:

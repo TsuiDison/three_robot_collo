@@ -45,7 +45,7 @@ def main():
         visualizer.fig, 
         visualizer._update_frame, # 直接调用可视化的帧更新函数
         init_func=visualizer._init_animation,
-        interval=33, # 尝试以接近 30 FPS 的速度渲染
+        interval=50, # 尝试以接近 30 FPS 的速度渲染
         blit=True,
         cache_frame_data=False
     )

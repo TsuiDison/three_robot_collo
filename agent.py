@@ -128,7 +128,7 @@ class Agent:
 # --- Agent 子类定义保持不变，但 __init__ 不再需要启动线程 ---
 class DroneAgent(Agent):
     def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
-        capabilities = { "type": "drone", "speed": 15.0, "weight_limit": 5.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 100, "can_cross_water": True } }
+        capabilities = { "type": "drone", "speed": 15.0, "weight_limit": 10.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 100, "can_cross_water": True } }
         super().__init__(agent_id, position, capabilities, coord_system_ref)
 class CarAgent(Agent):
     def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
@@ -136,5 +136,5 @@ class CarAgent(Agent):
         super().__init__(agent_id, position, capabilities, coord_system_ref)
 class RobotDogAgent(Agent):
     def __init__(self, agent_id: str, position: Tuple[int, int], coord_system_ref):
-        capabilities = { "type": "robot_dog", "speed": 1.0, "weight_limit": 20.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 5, "can_cross_water": False } }
+        capabilities = { "type": "robot_dog", "speed": 1.0, "weight_limit": 30.0, "terrain_rules": { "road_only": False, "can_climb": True, "climb_height": 5, "can_cross_water": False } }
         super().__init__(agent_id, position, capabilities, coord_system_ref)

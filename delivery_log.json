@@ -1,0 +1,552 @@
+[
+    {
+        "taskId": "C01_RIVER_MEDICAL_leg1",
+        "originalTaskId": "C01_RIVER_MEDICAL",
+        "agentId": "car_1",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747743.6367264,
+        "completionTime": 1749747749.083944,
+        "duration": 5.447217702865601,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 12.0,
+        "taskUrgency": 5,
+        "pathLength": 41,
+        "failureReason": null
+    },
+    {
+        "taskId": "C06_RIVER_SAMPLES_leg1",
+        "originalTaskId": "C06_RIVER_SAMPLES",
+        "agentId": "drone_1",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747745.5628886,
+        "completionTime": 1749747748.690481,
+        "duration": 3.1275923252105713,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 10.0,
+        "taskUrgency": 5,
+        "pathLength": 41,
+        "failureReason": null
+    },
+    {
+        "taskId": "M07_MOUNTAIN_BEACON_leg1",
+        "originalTaskId": "M07_MOUNTAIN_BEACON",
+        "agentId": "car_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747746.241018,
+        "completionTime": 1749747749.2325428,
+        "duration": 2.9915246963500977,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 20.0,
+        "taskUrgency": 5,
+        "pathLength": 41,
+        "failureReason": null
+    },
+    {
+        "taskId": "C01_RIVER_MEDICAL_leg2",
+        "originalTaskId": "C01_RIVER_MEDICAL",
+        "agentId": "robot_dog_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747747.0639186,
+        "completionTime": 1749747750.8067348,
+        "duration": 3.742816209793091,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            85,
+            45
+        ],
+        "taskWeight": 12.0,
+        "taskUrgency": 5,
+        "pathLength": 76,
+        "failureReason": null
+    },
+    {
+        "taskId": "F01_CHOICE_MOUNTAIN_LIGHT_leg1",
+        "originalTaskId": "F01_CHOICE_MOUNTAIN_LIGHT",
+        "agentId": "drone_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747747.5349226,
+        "completionTime": 1749747748.9612746,
+        "duration": 1.4263520240783691,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 4.0,
+        "taskUrgency": 5,
+        "pathLength": 41,
+        "failureReason": null
+    },
+    {
+        "taskId": "C06_RIVER_SAMPLES_leg2",
+        "originalTaskId": "C06_RIVER_SAMPLES",
+        "agentId": "drone_3",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747747.9680808,
+        "completionTime": 1749747749.3366039,
+        "duration": 1.368523120880127,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            78,
+            58
+        ],
+        "taskWeight": 10.0,
+        "taskUrgency": 5,
+        "pathLength": 69,
+        "failureReason": null
+    },
+    {
+        "taskId": "F04_FAR_CORNER_URGENT",
+        "originalTaskId": "F04_FAR_CORNER_URGENT",
+        "agentId": "robot_dog_2",
+        "strategy": "direct",
+        "status": "completed",
+        "startTime": 1749747748.4406886,
+        "completionTime": 1749747750.8267527,
+        "duration": 2.386064052581787,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            95,
+            5
+        ],
+        "taskWeight": 19.5,
+        "taskUrgency": 5,
+        "pathLength": 86,
+        "failureReason": null
+    },
+    {
+        "taskId": "F01_CHOICE_MOUNTAIN_LIGHT_leg2",
+        "originalTaskId": "F01_CHOICE_MOUNTAIN_LIGHT",
+        "agentId": "drone_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747749.768069,
+        "completionTime": 1749747750.8500729,
+        "duration": 1.0820038318634033,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            88,
+            88
+        ],
+        "taskWeight": 4.0,
+        "taskUrgency": 5,
+        "pathLength": 59,
+        "failureReason": null
+    },
+    {
+        "taskId": "T04_LAKE_LIGHT_DELIVERY_leg1",
+        "originalTaskId": "T04_LAKE_LIGHT_DELIVERY",
+        "agentId": "drone_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747750.094158,
+        "completionTime": 1749747751.3116457,
+        "duration": 1.2174878120422363,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 3.0,
+        "taskUrgency": 4,
+        "pathLength": 80,
+        "failureReason": null
+    },
+    {
+        "taskId": "C02_RIVER_PARTS_leg1",
+        "originalTaskId": "C02_RIVER_PARTS",
+        "agentId": "car_1",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747750.7029295,
+        "completionTime": 1749747753.3305595,
+        "duration": 2.6276299953460693,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 18.5,
+        "taskUrgency": 4,
+        "pathLength": 79,
+        "failureReason": null
+    },
+    {
+        "taskId": "M07_MOUNTAIN_BEACON_leg2",
+        "originalTaskId": "M07_MOUNTAIN_BEACON",
+        "agentId": "robot_dog_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747751.7943895,
+        "completionTime": 1749747753.6690168,
+        "duration": 1.8746273517608643,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            94,
+            76
+        ],
+        "taskWeight": 20.0,
+        "taskUrgency": 5,
+        "pathLength": 61,
+        "failureReason": null
+    },
+    {
+        "taskId": "C03_RIVER_EQUIPMENT_leg1",
+        "originalTaskId": "C03_RIVER_EQUIPMENT",
+        "agentId": "car_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747751.9132497,
+        "completionTime": 1749747754.4874997,
+        "duration": 2.5742499828338623,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 15.0,
+        "taskUrgency": 4,
+        "pathLength": 79,
+        "failureReason": null
+    },
+    {
+        "taskId": "T04_LAKE_LIGHT_DELIVERY_leg2",
+        "originalTaskId": "T04_LAKE_LIGHT_DELIVERY",
+        "agentId": "drone_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747752.821745,
+        "completionTime": 1749747753.8820927,
+        "duration": 1.0603477954864502,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            15,
+            70
+        ],
+        "taskWeight": 3.0,
+        "taskUrgency": 4,
+        "pathLength": 60,
+        "failureReason": null
+    },
+    {
+        "taskId": "C02_RIVER_PARTS_leg2",
+        "originalTaskId": "C02_RIVER_PARTS",
+        "agentId": "car_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747753.7150972,
+        "completionTime": 1749747754.6146686,
+        "duration": 0.899571418762207,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            80,
+            60
+        ],
+        "taskWeight": 18.5,
+        "taskUrgency": 4,
+        "pathLength": 34,
+        "failureReason": null
+    },
+    {
+        "taskId": "C08_RIVER_FOOD_SUPPLY",
+        "originalTaskId": "C08_RIVER_FOOD_SUPPLY",
+        "agentId": "robot_dog_2",
+        "strategy": "direct",
+        "status": "completed",
+        "startTime": 1749747753.8820927,
+        "completionTime": 1749747757.2400656,
+        "duration": 3.3579728603363037,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            92,
+            15
+        ],
+        "taskWeight": 14.0,
+        "taskUrgency": 4,
+        "pathLength": 123,
+        "failureReason": null
+    },
+    {
+        "taskId": "C10_RIVER_WATER_TESTER_leg1",
+        "originalTaskId": "C10_RIVER_WATER_TESTER",
+        "agentId": "drone_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747754.7333345,
+        "completionTime": 1749747756.1284206,
+        "duration": 1.3950860500335693,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 9.0,
+        "taskUrgency": 4,
+        "pathLength": 80,
+        "failureReason": null
+    },
+    {
+        "taskId": "C03_RIVER_EQUIPMENT_leg2",
+        "originalTaskId": "C03_RIVER_EQUIPMENT",
+        "agentId": "robot_dog_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747755.7846246,
+        "completionTime": 1749747757.0914397,
+        "duration": 1.3068151473999023,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            90,
+            52
+        ],
+        "taskWeight": 15.0,
+        "taskUrgency": 4,
+        "pathLength": 41,
+        "failureReason": null
+    },
+    {
+        "taskId": "M01_MOUNTAIN_GENERATOR_leg1",
+        "originalTaskId": "M01_MOUNTAIN_GENERATOR",
+        "agentId": "car_2",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747755.938887,
+        "completionTime": 1749747758.4272332,
+        "duration": 2.4883463382720947,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 15.0,
+        "taskUrgency": 4,
+        "pathLength": 79,
+        "failureReason": null
+    },
+    {
+        "taskId": "M05_MOUNTAIN_HEAVY_GEAR_leg1",
+        "originalTaskId": "M05_MOUNTAIN_HEAVY_GEAR",
+        "agentId": "car_1",
+        "strategy": "relay_leg1",
+        "status": "completed",
+        "startTime": 1749747756.9405677,
+        "completionTime": 1749747759.5741813,
+        "duration": 2.6336135864257812,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 20.0,
+        "taskUrgency": 4,
+        "pathLength": 84,
+        "failureReason": null
+    },
+    {
+        "taskId": "C10_RIVER_WATER_TESTER_leg2",
+        "originalTaskId": "C10_RIVER_WATER_TESTER",
+        "agentId": "drone_3",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747757.7215364,
+        "completionTime": 1749747758.156732,
+        "duration": 0.4351956844329834,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            72,
+            50
+        ],
+        "taskWeight": 9.0,
+        "taskUrgency": 4,
+        "pathLength": 23,
+        "failureReason": null
+    },
+    {
+        "taskId": "M01_MOUNTAIN_GENERATOR_leg2",
+        "originalTaskId": "M01_MOUNTAIN_GENERATOR",
+        "agentId": "robot_dog_1",
+        "strategy": "relay_leg2",
+        "status": "completed",
+        "startTime": 1749747758.8005416,
+        "completionTime": 1749747761.2668064,
+        "duration": 2.4662647247314453,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            90,
+            90
+        ],
+        "taskWeight": 15.0,
+        "taskUrgency": 4,
+        "pathLength": 57,
+        "failureReason": null
+    },
+    {
+        "taskId": "M09_MOUNTAIN_DRILL_leg1",
+        "originalTaskId": "M09_MOUNTAIN_DRILL",
+        "agentId": "car_2",
+        "strategy": "relay_leg1",
+        "status": "assigned",
+        "startTime": 1749747759.0125747,
+        "completionTime": null,
+        "duration": null,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 30.0,
+        "taskUrgency": 4,
+        "pathLength": 79,
+        "failureReason": null
+    },
+    {
+        "taskId": "M05_MOUNTAIN_HEAVY_GEAR_leg2",
+        "originalTaskId": "M05_MOUNTAIN_HEAVY_GEAR",
+        "agentId": "robot_dog_2",
+        "strategy": "relay_leg2",
+        "status": "assigned",
+        "startTime": 1749747759.8464518,
+        "completionTime": null,
+        "duration": null,
+        "startPosition": [
+            50,
+            50
+        ],
+        "goalPosition": [
+            85,
+            95
+        ],
+        "taskWeight": 20.0,
+        "taskUrgency": 4,
+        "pathLength": 61,
+        "failureReason": null
+    },
+    {
+        "taskId": "F03_CHOICE_LAKE_MEDIUM",
+        "originalTaskId": "F03_CHOICE_LAKE_MEDIUM",
+        "agentId": "car_1",
+        "strategy": "direct",
+        "status": "assigned",
+        "startTime": 1749747760.3945851,
+        "completionTime": null,
+        "duration": null,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            30,
+            80
+        ],
+        "taskWeight": 15.0,
+        "taskUrgency": 4,
+        "pathLength": 128,
+        "failureReason": null
+    },
+    {
+        "taskId": "T01_DRONE_DIRECT_leg1",
+        "originalTaskId": "T01_DRONE_DIRECT",
+        "agentId": "drone_2",
+        "strategy": "relay_leg1",
+        "status": "assigned",
+        "startTime": 1749747761.012813,
+        "completionTime": null,
+        "duration": null,
+        "startPosition": [
+            10,
+            10
+        ],
+        "goalPosition": [
+            50,
+            50
+        ],
+        "taskWeight": 4.5,
+        "taskUrgency": 3,
+        "pathLength": 80,
+        "failureReason": null
+    }
+]

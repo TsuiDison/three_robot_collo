@@ -16,10 +16,13 @@ class DeliveryTask:
                  urgency: int = 1, task_id: str = None, 
                  start_pos: Optional[Tuple[int, int]] = None, 
                  is_relay_leg: bool = False,
-                 color: Optional[str] = None): # 新增 color 参数
+                 color: Optional[str] = None,
+                 original_task_id: Optional[str] = None): # <--- 核心修复：添加此参数
         
         self.task_id = task_id if task_id else f"task_{id(self)}"
-        self.original_goal = goal_pos  # 记录客户的最终位置
+        self.original_goal = goal_pos  # 原始目标点
+        # 现在 original_task_id 是一个已定义的参数
+        self.original_task_id = original_task_id if original_task_id else self.task_id
         self.weight = weight
         self.urgency = urgency
         
@@ -35,9 +38,8 @@ class DeliveryTask:
         else:
             # 随机生成一个明亮的、鲜艳的颜色
             self.color = "#{:06x}".format(random.randint(0x808080, 0xFFFFFF))
-        # --- 修改结束 ---
-
-        # --- 新增属性，用于中转站处理延迟 ---
+        
+        # 用于中转站处理延迟
         self.arrival_time = None # 记录任务到达中转站的时间
         
     def __repr__(self):
@@ -46,4 +48,4 @@ class DeliveryTask:
             return f"RelayTask(id={self.task_id}, from={self.start_pos} to={self.goal_pos})"
         elif self.start_pos:
              return f"DirectTask(id={self.task_id}, from={self.start_pos} to={self.goal_pos})"
-        return f"MainTask(id={self.task_id}, to={self.original_goal})"  
+        return f"MainTask(id={self.task_id}, to={self.original_goal})"
