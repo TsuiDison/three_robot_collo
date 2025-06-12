@@ -52,17 +52,7 @@ git clone https://github.com/TsuiDison/three_robot_collo.git
 cd three_robot_collo
 
 # 安装依赖
-pip install -r requirements.txt
-```
-
-*(注意: 您需要创建一个 `requirements.txt` 文件，内容如下:)*
-
-**`requirements.txt`**:
-```
-numpy
-matplotlib
-PyYAML
-noise
+pip install numpy matplotlib PyYAML noise
 ```
 
 ### 2. 定义任务
