@@ -27,6 +27,17 @@ class DeliveryTask:
         """
         self.start_pos = start_pos
         self.goal_pos = goal_pos
+        
+        # 为了兼容性，同时设置直接属性和attributes字典
+        self.weight = weight if weight is not None else 1.0
+        self.volume = volume
+        self.time_window = time_window
+        self.safety = safety
+        self.urgency = urgency
+        self.cost_limit = cost_limit
+        self.scalability = scalability
+        self.cargo_type = cargo_type
+        
         self.attributes = {
             1: weight,       # 重量限制
             2: volume,       # 体积限制

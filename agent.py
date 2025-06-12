@@ -36,7 +36,8 @@ class Agent:
         self.energy = 100.0
         self.state = AgentState.IDLE
         self.current_task = None
-        self.task_queue = []        self.target_position = None
+        self.task_queue = []        
+        self.target_position = None
         
     def can_handle_task(self, task: DeliveryTask) -> bool:
         """检查是否能处理指定任务"""
@@ -78,20 +79,25 @@ class Agent:
             move_x = (dx / distance) * self.max_speed
             move_y = (dy / distance) * self.max_speed
             self.position = (self.position[0] + move_x, self.position[1] + move_y)
-        
-        # 消耗能量
+          # 消耗能量
         self.energy -= self.energy_consumption
+        
     def _handle_arrival(self):
         """处理到达目标位置的逻辑"""
         if self.state == AgentState.MOVING_TO_PICKUP:
             self.state = AgentState.PICKING_UP
-            self.current_weight += self.current_task.weight
+            # 获取任务重量，支持多种属性名称
+            task_weight = getattr(self.current_task, 'weight', 
+                                getattr(self.current_task, 'cargo_weight', 1.0))
+            self.current_weight += task_weight
             # 设置配送目标
             self.target_position = self.current_task.goal_pos
             self.state = AgentState.MOVING_TO_DELIVERY
         elif self.state == AgentState.MOVING_TO_DELIVERY:
             self.state = AgentState.DELIVERING
-            self.current_weight -= self.current_task.weight
+            task_weight = getattr(self.current_task, 'weight', 
+                                getattr(self.current_task, 'cargo_weight', 1.0))
+            self.current_weight -= task_weight
             # 任务完成
             self.current_task = None
             self.state = AgentState.IDLE
