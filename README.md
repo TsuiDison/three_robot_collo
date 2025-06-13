@@ -54,6 +54,11 @@ cd three_robot_collo
 # 安装依赖
 pip install numpy matplotlib PyYAML noise
 ```
+如果不行，先试试
+```bash
+ conda install conda-forge::noise
+```
+不行就换版本，3.11.7是可以的
 
 ### 2. 定义任务
 
