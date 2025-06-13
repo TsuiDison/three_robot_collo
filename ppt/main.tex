@@ -1,0 +1,602 @@
+% !TEX encoding = UTF-8 Unicode
+%用于展示
+\documentclass[
+10pt,
+aspectratio=169,
+]{beamer}
+\newcommand{\Lorenz}{{\calligra Lorenz}}
+\setbeamercovered{transparent=10}
+\usetheme[
+%  showheader,
+%  red,
+  purple,
+%  gray,
+%  graytitle,
+  colorblocks,
+%  noframetitlerule,
+]{Verona}
+
+\usepackage[T1]{fontenc}
+\usepackage{tcolorbox}
+\usepackage{circuitikz}
+\usepackage[utf8]{inputenc}
+\usepackage{cite} % 使用cite宏包来处理引用
+\usepackage[numbers,authoryear]{natbib}  % 使用 natbib 包支持作者-年份引用
+\usepackage{hyperref}  % 用于创建超链接
+% \hypersetup{
+%     colorlinks=true,        % 激活超链接的颜色
+%     linkcolor=blue,         % 设置文献引用、目录等链接的颜色
+%     urlcolor=blue,          % 设置URL的颜色
+%     citecolor=blue          % 设置文献引用的颜色
+% }
+% 设置参考文献风格
+\bibliographystyle{plain} % 指定样式
+\usepackage{lipsum}
+\definecolor{col}{RGB}{4,74,21}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mac上使用如下命令声明隶书字体，windows也有相关方式，大家可自行修改
+\providecommand{\lishu}{\CJKfamily{zhli}}
+
+% %%%%%%%%%%%%用于进行逐行显示%%%%%%%%%%%%%%%%%%%%%
+% \setbeamertemplate{itemize items}[default] % 可选：更改列表符号样式
+% \beamerdefaultoverlayspecification{<+->} % 默认逐项显示
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{fadings}
+%
+\setbeamertemplate{sections/subsections in toc}[ball]
+\usepackage{xeCJK}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% 定义 Python 语言的样式
+%\lstdefinestyle{mypython}适用于一个文章中有多个代码插入风格的情况
+\lstset{
+    language=Python,
+    basicstyle=\small\ttfamily,  % 基本样式
+    numbers=left,  % 左侧显示行号
+    numberstyle=\footnotesize\itshape,  % 行号的样式
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{gray!5}, % 代码块背景颜色
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray!50!black!50},    % 注释样式
+    stringstyle=\rmfamily\slshape\color{red},  % 字符串样式
+    frame=leftline, % 代码框形状
+    rulecolor=\color{gray!90}, % 代码框颜色
+    aboveskip=10pt,                % 框架上方的间距
+    belowskip=10pt,                % 框架下方的间距
+    framerule=12pt, 
+    firstnumber=1,
+    stepnumber=1,  % 若设置为2，则显示行号为1,3,5
+    numbersep=7pt, % 行号与代码之间的间距
+    aboveskip=.25em,  % 代码块边框
+    showspaces=false,  % 显示添加特定下划线的空格
+    keepspaces=true,
+    showtabs=false,  % 在字符串中显示制表符
+    % tabsize=2,  % 默认缩进2个字符
+    %captionpos=b,  % 将标题位置设置为底部
+    breaklines=true,  % 设置自动断行
+    breakatwhitespace=false,  % 设置自动中断是否只发生在空格处
+    breakautoindent=true,%不知道这句有什么用
+    breakindent=1em,
+    title=\lstname, 
+    escapeinside=``,  % 在``里显示中文
+    xleftmargin=1em, xrightmargin=1em, % 设定listing左右的空白
+    aboveskip=1ex, belowskip=1ex,
+    framextopmargin=1pt, framexbottommargin=1pt,
+    abovecaptionskip=-2pt,belowcaptionskip=3pt,
+    extendedchars=false, columns=flexible, mathescape=true,
+    texcl=true,
+    fontadjust
+}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{calligra}
+\setbeamertemplate{caption}[numbered]
+
+\usepackage{subcaption}
+\usefonttheme{professionalfonts}
+\def\mathfamilydefault{\rmdefault}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{bm}
+\setbeamertemplate{section in toc}{\hspace*{1em}\inserttocsectionnumber.~\inserttocsection\par}
+\setbeamertemplate{subsection in toc}{\hspace*{2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~\inserttocsubsection\par}
+\setbeamerfont{subsection in toc}{size=\small}
+\AtBeginSection[]{%
+	\begin{frame}%
+		\frametitle{目录}%
+        \begin{multicols}{2}
+            \textbf{\tableofcontents[currentsection]} %
+            \end{multicols}
+		
+	\end{frame}%
+}
+
+\AtBeginSubsection[]{%
+	\begin{frame}%
+		\frametitle{目录}%
+        \begin{multicols}{2}
+            \textbf{\tableofcontents[currentsection, currentsubsection]} %
+        \end{multicols}
+\end{frame}%
+}
+
+\title{基于 {\calligra Agent}的无人机无人车机器狗协同配送}
+\subtitle{系统仿真与}
+\author[崔迪生,黄皓凌,岑岱,李梓琳,李家龙]
+{崔迪生,黄皓凌,岑岱,李梓琳,李家龙}
+\mail{cuidsh@mail2.sysu.edu.cn\\
+}
+\institute[中山大学]{中山大学\\
+系统科学与工程学院\\
+指导老师：李雄
+}
+\date{2025.4.24}
+
+\titlegraphic[width=3cm]{sysu_logo}{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 标题页 ------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% 这部分是定制页面的标题栏（headlines），用于显示章节信息
+\setbeamertemplate{headline}{
+    \begin{beamercolorbox}[ht=2.5ex, left, wd=\paperwidth, sep=0pt, colsep=1ex]{section in head/foot}
+        \usebeamerfont{section in head/foot}
+        \insertsectionhead/
+        \insertsubsectionhead/
+        \insertsubsubsectionhead
+      \end{beamercolorbox}
+    
+}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+    {目录}
+    \begin{multicols}{2}
+        \tableofcontents
+        \end{multicols}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- Temp ------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \begin{exampleblock}{title}
+% 		xxx
+% 	\end{exampleblock}
+
+% \begin{columns}[onlytextwidth]
+% 		\begin{column}{.5\textwidth}
+% 		\end{column}
+% \end{columns}
+
+% \begin{figure}
+% 		\centering
+% 		\includegraphics[width=0.8\linewidth]{fig/intro_private.png}
+% 		\caption{Privacy security policy}
+% \end{figure}
+
+% \begin{equation*}
+% 		w=\sum _{j=1}^{M}\frac{\left | \mathcal{D}_j \right | w_j^e}{\sum _{j=1}^{M}\left | \mathcal{D}_j \right |}
+% \end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- FRAME ------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------cend-----------S
+\section{系统概述}
+
+\begin{frame}{研究背景与动机}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{研究背景}
+                \begin{itemize}
+                    \item 城市物流配送需求快速增长
+                    \item 传统单一载具配送效率有限
+                    \item 复杂地形环境需要异构智能体协作
+                    \item 分布式决策提高系统鲁棒性
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{系统目标}
+                \begin{itemize}
+                    \item 构建多智能体协作配送仿真平台
+                    \item 实现智能任务分配与路径规划
+                    \item 设计高效的中转站协作机制
+                    \item 开发实时可视化监控系统
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{系统架构设计}
+    \begin{block}{核心模块组成}
+        系统主要由9个核心模块构成%（详见\cref{main-py,config-py,agent-py}）：
+        \begin{itemize}
+            \item \texttt{main.py} - 系统启动入口与任务加载
+            \item \texttt{multi\_agent\_coordination.py} - 多智能体协调核心
+            \item \texttt{agent.py} - 三种异构智能体实现
+            \item \texttt{path\_planning.py} - A*路径规划算法
+            \item \texttt{map\_system.py} - 动态地图环境系统
+        \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{技术特色}
+        \begin{itemize}
+            \item 模块化设计，松耦合架构
+            \item 支持直达与中转两种配送策略
+            \item 基于优先队列的任务调度机制
+            \item 实时可视化与日志记录系统
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 智能体设计 --------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{异构智能体设计}
+
+\begin{frame}{三种智能体类型}
+    \begin{block}{智能体能力对比}
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{智能体} & \textbf{速度} & \textbf{载重} & \textbf{地形适应} & \textbf{特殊能力} \\
+        \hline
+        无人机(Drone) & 15.0 & 10kg & 全地形 & 飞行、跨水域 \\
+        \hline
+        无人车(Car) & 5.0 & 50kg & 仅道路 & 大载重运输 \\
+        \hline
+        机器狗(RobotDog) & 7.0 & 30kg & 陆地全地形 & 爬坡、攀爬 \\
+        \hline
+        \end{tabular}
+        \end{center}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{核心能力}
+                \begin{itemize}
+                    \item 自主路径跟踪与移动
+                    \item 有限视野环境探索(半径=5)
+                    \item 状态管理：idle→delivering→returning
+                    \item 实时位置与任务状态上报
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{协作机制}
+                \begin{itemize}
+                    \item 共享环境知识发现
+                    \item 动态任务分配与重分配
+                    \item 中转站协作配送
+                    \item 智能返回路径选择
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{智能体实现架构}
+    \begin{block}{Agent基类设计}%（参见\cref{agent-py}）}
+        \begin{itemize}
+            \item \textbf{update()}: 主更新循环，处理移动和探索
+            \item \textbf{follow\_path()}: 路径跟踪与状态转换
+            \item \textbf{explore\_surroundings()}: 周围环境探索发现
+            \item \textbf{assign\_task()}: 任务分配与载具初始化
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{DroneAgent特性}
+                \begin{itemize}
+                    \item 速度：15.0（最快）
+                    \item 载重：10kg（轻载）
+                    \item 地形：can\_cross\_water=True
+                    \item 优势：快速跨越复杂地形
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{CarAgent特性}
+                \begin{itemize}
+                    \item 速度：5.0（中等）
+                    \item 载重：50kg（重载）
+                    \item 地形：road\_only=True
+                    \item 优势：大载重道路运输
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{A*路径规划算法}
+    \begin{block}{路径规划特性（参见}%\cref{path-planning}）}
+        \begin{itemize}
+            \item 基于共享知识地图的启发式搜索
+            \item 支持不同智能体的地形适应性约束
+            \item 处理未知区域的探索惩罚机制
+            \item 8方向搜索优化路径长度
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{exampleblock}{地形通行规则}
+                \begin{itemize}
+                    \item \textbf{无人机}: 所有地形通行，未知区域+10惩罚
+                    \item \textbf{无人车}: 仅道路通行，自动寻找最近道路
+                    \item \textbf{机器狗}: 陆地通行，山地+2惩罚，陡峭+5惩罚
+                    \item \textbf{水域约束}: 只有无人机可以跨越
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{alertblock}{算法优化}
+                \begin{itemize}
+                    \item 启发式函数结合地形成本
+                    \item 动态权重调整
+                    \item 路径平滑处理
+                    \item 最终距离阈值检查
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 协调机制 ----------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{多智能体协调}
+
+\begin{frame}{协调系统架构}
+    \begin{block}{MultiAgentCoordinationSystem核心功能}
+        \begin{itemize}
+            \item \textbf{任务队列管理}: 基于优先队列的紧急度排序
+            \item \textbf{智能体状态监控}: 实时追踪所有智能体状态
+            \item \textbf{路径规划服务}: 为智能体提供最优路径计算
+            \item \textbf{中转站协调}: 管理两阶段协作配送流程
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{协调循环(50FPS)}
+                \begin{itemize}
+                    \item 智能体状态更新
+                    \item 中转任务分配
+                    \item 主队列任务处理
+                    \item 系统性能监控
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{日志记录}
+                \begin{itemize}
+                    \item 任务分配记录
+                    \item 路径执行轨迹
+                    \item 完成时间统计
+                    \item JSON格式输出
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{中转站协作机制}
+    \begin{block}{两阶段协作流程}
+        \begin{enumerate}
+            \item \textbf{第一阶段}: 最优智能体将货物运送到中转站
+            \item \textbf{处理延迟}: 中转站处理时间(2.0秒)模拟货物中转
+            \item \textbf{第二阶段}: 重新分配最适合的智能体完成最后配送
+        \end{enumerate}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{协作优势}
+                \begin{itemize}
+                    \item 发挥各智能体专长
+                    \item 突破单体能力限制
+                    \item 提高整体配送效率
+                    \item 增强系统容错能力
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{智能决策}
+                \begin{itemize}
+                    \item 动态成本计算
+                    \item 载重能力匹配
+                    \item 地形适应性考虑
+                    \item 紧急度权重调整
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 环境建模 ----------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{环境建模}
+
+\begin{frame}{地图系统设计}
+    \begin{block}{Map类功能（参见}%\cref{map-system,knowledge-base}）}
+        \begin{itemize}
+            \item \textbf{程序化地形生成}: 使用Perlin噪声创建真实地形
+            \item \textbf{多层次地形}: 道路、水域、山地、建筑、植被6种类型
+            \item \textbf{动态天气系统}: 晴天、雨天、雪天影响智能体性能
+            \item \textbf{战争迷雾机制}: 智能体有限视野逐步探索
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{SharedKnowledgeMap}
+                \begin{itemize}
+                    \item 共享环境知识库
+                    \item 实时更新机制
+                    \item 未知区域标记
+                    \item 批量信息更新
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{探索机制}
+                \begin{itemize}
+                    \item 探索半径：5单位
+                    \item 即时信息共享
+                    \item 未知区域惩罚
+                    \item 渐进式地图构建
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 可视化系统 --------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{可视化与日志}
+
+\begin{frame}{实时可视化系统}
+    \begin{block}{DeliveryVisualizer功能（参见}%\cref{visualization}）}
+        \begin{itemize}
+            \item \textbf{高性能动画}: Matplotlib动画，blit=True优化
+            \item \textbf{多层渲染}: 地形、智能体、路径、任务分层显示
+            \item \textbf{状态监控}: 实时显示任务进度和智能体状态
+            \item \textbf{交互控制}: 支持暂停、继续、速度调整
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{视觉元素}
+                \begin{itemize}
+                    \item 智能体颜色标识
+                    \item 任务路径实时高亮
+                    \item 地形类型色彩编码
+                    \item 动态信息面板
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{日志系统}
+                \begin{itemize}
+                    \item LogEntry结构化记录
+                    \item 任务生命周期追踪
+                    \item JSON格式导出
+                    \item 性能分析支持
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 系统特色 ----------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{系统特色与创新}
+
+\begin{frame}{技术创新点}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{算法创新}
+                \begin{itemize}
+                    \item 双策略智能决策机制
+                    \item 紧急度权重动态调整
+                    \item 地形适应性路径规划
+                    \item 战争迷雾探索机制
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{工程创新}
+                \begin{itemize}
+                    \item 模块化松耦合架构
+                    \item 高频协调循环(50FPS)
+                    \item 实时可视化渲染
+                    \item 完整日志记录系统
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+    
+    \begin{alertblock}{系统优势}
+        \begin{itemize}
+            \item \textbf{异构协作}: 三种智能体发挥各自优势，互补协作
+            \item \textbf{智能决策}: 基于成本分析的策略选择，适应复杂场景
+            \item \textbf{实时响应}: 高频更新循环，支持动态环境变化
+            \item \textbf{可扩展性}: 模块化设计，易于功能扩展和性能优化
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------- 总结展望 ----------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{总结与展望}
+
+\begin{frame}{项目总结}
+    \begin{block}{主要成果}
+        \begin{itemize}
+            \item \textbf{完整仿真平台}: 构建了功能完备的多智能体配送仿真系统
+            \item \textbf{核心算法实现}: 双策略决策、A*路径规划、协作机制
+            \item \textbf{工程化实现}: 9个核心模块，清晰的架构设计
+            \item \textbf{可视化系统}: 实时动画渲染和完整的日志记录
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{技术亮点}
+                \begin{itemize}
+                    \item 异构智能体协同工作
+                    \item 智能任务分配策略
+                    \item 中转站协作机制
+                    \item 战争迷雾探索系统
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{应用价值}
+                \begin{itemize}
+                    \item 城市物流配送优化
+                    \item 应急救援物资投送
+                    \item 多机器人协作研究
+                    \item 智能交通系统设计
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\section{附录}
+
+%\lstinputlisting[caption={Lorenz Attractor Example - animation}]{code/lorenz_attractor2.m}
+\end{document}
+
+
+
+
+
