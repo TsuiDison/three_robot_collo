@@ -72,7 +72,7 @@ pip install numpy matplotlib PyYAML noise
 ```
 
 ### 3. 启动仿真
-
+·
 直接运行主程序即可启动仿真。
 
 ```bash
@@ -84,7 +84,35 @@ python main.py
 ---
 
 ## 📁 代码结构
-
+或者先看这个：
+```
+Multi-Agent Delivery Simulation System
+│
+├── 🎯 系统入口层
+│   ├── main.py                    # 主程序启动，协调各模块
+│   └── config.py                  # 全局配置参数管理
+│
+├── 🗺️ 环境建模层
+│   ├── map_system.py              # 真实地图生成（Perlin噪声）
+│   └── knowledge_base.py          # 智能体共享知识地图
+│
+├── 🤖 智能体层
+│   ├── agent.py                   # Agent基类 + 三种智能体实现
+│   └── vehicle.py                 # 载具物理移动系统
+│
+├── 🧠 决策协调层
+│   ├── multi_agent_coordination.py # 核心！任务分配和协调
+│   ├── path_planning.py           # A*路径规划算法
+│   └── delivery_task.py           # 任务定义和管理
+│
+├── 📊 可视化和日志层
+│   ├── visualization.py           # 实时动画渲染
+│   └── log_entry.py               # 结构化日志记录
+│
+└── 📄 配置文件
+    ├── tasks.yaml                 # 任务配置文件
+    └── delivery_log.json          # 自动生成的执行日志
+```
 项目代码结构清晰，各模块职责分明：
 
 ```
