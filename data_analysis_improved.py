@@ -34,7 +34,10 @@ def load_and_analyze_data():
     return df, data
 
 def create_performance_overview(df):
-    """创建系统性能概览图表"""
+    """创建系统性能概览图表并导出子图"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # 创建组合图
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
     
     # 1. 策略分布饼图
@@ -50,6 +53,16 @@ def create_performance_overview(df):
     wedges, texts, autotexts = ax1.pie(strategy_counts.values, labels=strategy_labels, 
                                       autopct='%1.1f%%', colors=colors, startangle=90)
     ax1.set_title('策略分布统计', fontsize=14, fontweight='bold')
+    
+    # 将子图1独立保存
+    plt.figure(figsize=(10, 8))
+    plt.pie(strategy_counts.values, labels=strategy_labels, 
+           autopct='%1.1f%%', colors=colors, startangle=90)
+    plt.title('策略分布统计', fontsize=16, fontweight='bold')
+    sub_output_path = os.path.join(OUTPUT_DIR, f"strategy_distribution_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图1：策略分布统计 已保存到: {sub_output_path}")
+    plt.close()
     
     # 2. 智能体工作分配
     agent_tasks = defaultdict(int)
@@ -72,6 +85,24 @@ def create_performance_overview(df):
                 f'{int(height)}',
                 ha='center', va='bottom')
     
+    # 将子图2独立保存
+    plt.figure(figsize=(10, 8))
+    bars = plt.bar(agent_names, agent_counts, color=['#FF9F43', '#10AC84', '#5F27CD'])
+    plt.title('智能体任务分配统计', fontsize=16, fontweight='bold')
+    plt.ylabel('任务数量', fontsize=12)
+    
+    # 添加数值标签
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{int(height)}',
+                ha='center', va='bottom')
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"agent_distribution_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图2：智能体任务分配统计 已保存到: {sub_output_path}")
+    plt.close()
+    
     # 3. 任务执行时长分布
     duration_bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
     ax3.hist(df['duration'], bins=duration_bins, alpha=0.7, color='#6C5CE7', edgecolor='black')
@@ -79,6 +110,19 @@ def create_performance_overview(df):
     ax3.set_xlabel('执行时长 (秒)')
     ax3.set_ylabel('任务数量')
     ax3.grid(True, alpha=0.3)
+    
+    # 将子图3独立保存
+    plt.figure(figsize=(10, 8))
+    plt.hist(df['duration'], bins=duration_bins, alpha=0.7, color='#6C5CE7', edgecolor='black')
+    plt.title('任务执行时长分布', fontsize=16, fontweight='bold')
+    plt.xlabel('执行时长 (秒)', fontsize=12)
+    plt.ylabel('任务数量', fontsize=12)
+    plt.grid(True, alpha=0.3)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"duration_histogram_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图3：任务执行时长分布 已保存到: {sub_output_path}")
+    plt.close()
     
     # 4. 任务权重vs执行时长散点图
     scatter = ax4.scatter(df['taskWeight'], df['duration'], 
@@ -93,14 +137,38 @@ def create_performance_overview(df):
     cbar = plt.colorbar(scatter, ax=ax4)
     cbar.set_label('紧急度等级')
     
+    # 将子图4独立保存
+    plt.figure(figsize=(10, 8))
+    scatter = plt.scatter(df['taskWeight'], df['duration'], 
+                        c=df['taskUrgency'], cmap='RdYlBu_r', 
+                        s=80, alpha=0.7, edgecolors='black', linewidth=0.5)
+    plt.title('任务重量 vs 执行时长 (颜色=紧急度)', fontsize=16, fontweight='bold')
+    plt.xlabel('任务重量 (kg)', fontsize=12)
+    plt.ylabel('执行时长 (秒)', fontsize=12)
+    plt.grid(True, alpha=0.3)
+    
+    # 添加颜色条
+    cbar = plt.colorbar(scatter)
+    cbar.set_label('紧急度等级', fontsize=12)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"weight_duration_scatter_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图4：任务重量vs执行时长散点图 已保存到: {sub_output_path}")
+    plt.close()
+    
+    # 保存组合图
+    plt.figure(fig.number)
     plt.tight_layout()
     output_path = get_output_path('system_performance_overview.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"✅ 系统性能概览图已保存到: {output_path}")
+    print(f"✅ 组合图：系统性能概览图已保存到: {output_path}")
     plt.show()
 
 def create_collaboration_analysis(df, data):
-    """创建协作效果分析图表"""
+    """创建协作效果分析图表并导出子图"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # 创建组合图
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
     
     # 1. 中转策略vs直达策略效果对比
@@ -126,6 +194,21 @@ def create_collaboration_analysis(df, data):
     ax1.set_title('中转策略 vs 直达策略效果对比', fontsize=14, fontweight='bold')
     ax1.set_ylabel('总执行时长 (秒)')
     ax1.grid(True, alpha=0.3)
+    
+    # 将子图1独立保存
+    plt.figure(figsize=(10, 8))
+    bp = plt.boxplot(box_data, labels=['中转策略', '直达策略'], patch_artist=True)
+    bp['boxes'][0].set_facecolor('#FF6B6B')
+    bp['boxes'][1].set_facecolor('#4ECDC4')
+    
+    plt.title('中转策略 vs 直达策略效果对比', fontsize=16, fontweight='bold')
+    plt.ylabel('总执行时长 (秒)', fontsize=12)
+    plt.grid(True, alpha=0.3)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"strategy_comparison_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图1：中转策略vs直达策略效果对比 已保存到: {sub_output_path}")
+    plt.close()
     
     # 2. 时间轴上的任务执行情况
     start_times = pd.to_datetime(df['startTime'], unit='s')
@@ -163,6 +246,39 @@ def create_collaboration_analysis(df, data):
     ax2.set_yticklabels(list(y_positions.keys()))
     ax2.grid(True, alpha=0.3)
     
+    # 将子图2独立保存
+    plt.figure(figsize=(12, 8))
+    for i, row in df.iterrows():
+        agent_type = row['agentId'].split('_')[0]
+        agent_id = row['agentId']
+        
+        y_pos = y_positions[agent_id]
+        duration = relative_completion.iloc[i] - relative_start.iloc[i]
+        
+        plt.barh(y_pos, duration, left=relative_start.iloc[i], 
+                height=0.6, color=agent_colors[agent_type], alpha=0.7,
+                edgecolor='black', linewidth=0.5)
+    
+    plt.title('任务执行时间轴', fontsize=16, fontweight='bold')
+    plt.xlabel('时间 (秒)', fontsize=12)
+    plt.ylabel('智能体', fontsize=12)
+    plt.yticks(range(len(y_positions)), list(y_positions.keys()))
+    plt.grid(True, alpha=0.3)
+    
+    # 添加图例
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor=agent_colors['drone'], edgecolor='black', alpha=0.7, label='无人机'),
+        Patch(facecolor=agent_colors['car'], edgecolor='black', alpha=0.7, label='无人车'),
+        Patch(facecolor=agent_colors['robot'], edgecolor='black', alpha=0.7, label='机器狗')
+    ]
+    plt.legend(handles=legend_elements, loc='upper right')
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"task_timeline_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图2：任务执行时间轴 已保存到: {sub_output_path}")
+    plt.close()
+    
     # 3. 协作阶段分析
     leg1_tasks = df[df['strategy'] == 'relay_leg1']
     leg2_tasks = df[df['strategy'] == 'relay_leg2']
@@ -183,6 +299,24 @@ def create_collaboration_analysis(df, data):
     ax3.set_ylabel('执行时长 (秒)')
     ax3.set_xticklabels(['第一阶段\n(仓库→中转站)', '第二阶段\n(中转站→目标)'])
     ax3.grid(True, alpha=0.3)
+    
+    # 将子图3独立保存
+    plt.figure(figsize=(10, 8))
+    bp2 = plt.boxplot([stages_data['第一阶段\n(仓库→中转站)'], 
+                      stages_data['第二阶段\n(中转站→目标)']], 
+                     positions=positions, patch_artist=True)
+    bp2['boxes'][0].set_facecolor('#E74C3C')
+    bp2['boxes'][1].set_facecolor('#3498DB')
+    
+    plt.title('中转协作两阶段时长对比', fontsize=16, fontweight='bold')
+    plt.ylabel('执行时长 (秒)', fontsize=12)
+    plt.xticks(positions, ['第一阶段\n(仓库→中转站)', '第二阶段\n(中转站→目标)'])
+    plt.grid(True, alpha=0.3)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"relay_stages_comparison_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图3：中转协作两阶段时长对比 已保存到: {sub_output_path}")
+    plt.close()
     
     # 4. 智能体协作网络图
     collaboration_matrix = np.zeros((7, 7))  # 假设最多7个智能体
@@ -215,14 +349,39 @@ def create_collaboration_analysis(df, data):
     
     plt.colorbar(im, ax=ax4, label='协作次数')
     
+    # 将子图4独立保存
+    plt.figure(figsize=(10, 8))
+    im = plt.imshow(collaboration_matrix[:len(agent_list), :len(agent_list)], 
+                  cmap='Reds', alpha=0.8)
+    plt.title('智能体协作关系矩阵', fontsize=16, fontweight='bold')
+    plt.xticks(range(len(agent_list)), agent_list, rotation=45)
+    plt.yticks(range(len(agent_list)), agent_list)
+    
+    # 添加数值标签
+    for i in range(len(agent_list)):
+        for j in range(len(agent_list)):
+            plt.text(j, i, int(collaboration_matrix[i, j]),
+                   ha="center", va="center", color="black", fontweight='bold')
+    
+    plt.colorbar(im, label='协作次数')
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"collaboration_matrix_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子图4：智能体协作关系矩阵 已保存到: {sub_output_path}")
+    plt.close()
+    
+    # 保存组合图
+    plt.figure(fig.number)
     plt.tight_layout()
     output_path = get_output_path('collaboration_analysis.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"✅ 协作效果分析图已保存到: {output_path}")
+    print(f"✅ 组合图：协作效果分析图已保存到: {output_path}")
     plt.show()
 
 def create_performance_metrics_table(df):
-    """创建性能指标表格"""
+    """创建性能指标表格并导出子表格"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
     # 计算关键指标
     total_tasks = len(df)
     total_original_tasks = df['originalTaskId'].nunique()
@@ -282,6 +441,30 @@ def create_performance_metrics_table(df):
     
     ax1.set_title('系统性能指标汇总', fontsize=16, fontweight='bold', pad=20)
     
+    # 将表格1独立保存
+    plt.figure(figsize=(12, 8))
+    ax = plt.gca()
+    ax.axis('tight')
+    ax.axis('off')
+    
+    table = plt.table(cellText=performance_data[1:], colLabels=performance_data[0],
+                      cellLoc='center', loc='center')
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    table.scale(1.2, 2)
+    
+    # 设置表格样式
+    for i in range(len(performance_data[0])):
+        table[(0, i)].set_facecolor('#3498DB')
+        table[(0, i)].set_text_props(weight='bold', color='white')
+    
+    plt.title('系统性能指标汇总', fontsize=18, fontweight='bold', pad=20)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"system_performance_table_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子表格1：系统性能指标汇总 已保存到: {sub_output_path}")
+    plt.close()
+    
     # 表格2：智能体性能对比
     agent_mapping = {'drone': '无人机', 'car': '无人车', 'robot': '机器狗'}
     agent_data = [['智能体类型', '任务数量', '平均时长(秒)', '总工作时长(秒)', '工作负载占比']]
@@ -316,10 +499,36 @@ def create_performance_metrics_table(df):
     
     ax2.set_title('智能体性能对比', fontsize=16, fontweight='bold', pad=20)
     
+    # 将表格2独立保存
+    plt.figure(figsize=(12, 8))
+    ax = plt.gca()
+    ax.axis('tight')
+    ax.axis('off')
+    
+    table = plt.table(cellText=agent_data[1:], colLabels=agent_data[0],
+                      cellLoc='center', loc='center')
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    table.scale(1.2, 2)
+    
+    # 设置表格样式
+    for i in range(len(agent_data[0])):
+        table[(0, i)].set_facecolor('#E74C3C')
+        table[(0, i)].set_text_props(weight='bold', color='white')
+    
+    plt.title('智能体性能对比', fontsize=18, fontweight='bold', pad=20)
+    
+    sub_output_path = os.path.join(OUTPUT_DIR, f"agent_performance_table_{timestamp}.png")
+    plt.savefig(sub_output_path, dpi=300, bbox_inches='tight')
+    print(f"✅ 子表格2：智能体性能对比 已保存到: {sub_output_path}")
+    plt.close()
+    
+    # 保存组合表格
+    plt.figure(fig.number)
     plt.tight_layout()
     output_path = get_output_path('performance_metrics_table.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"✅ 性能指标表格已保存到: {output_path}")
+    print(f"✅ 组合表格：性能指标表格已保存到: {output_path}")
     plt.show()
     
     return performance_data, agent_data
@@ -336,20 +545,38 @@ def main():
     print(f"🤖 使用 {df['agentId'].nunique()} 个智能体")
     
     # 生成图表
-    print("\n📈 正在生成性能概览图表...")
+    print("\n📈 正在生成性能概览图表和子图...")
     create_performance_overview(df)
     
-    print("🤝 正在生成协作效果分析图表...")
+    print("\n🤝 正在生成协作效果分析图表和子图...")
     create_collaboration_analysis(df, data)
     
-    print("📋 正在生成性能指标表格...")
+    print("\n📋 正在生成性能指标表格和子表格...")
     performance_data, agent_data = create_performance_metrics_table(df)
     
     print(f"\n🎉 数据分析完成！所有图片已保存到 '{OUTPUT_DIR}' 目录：")
-    print("📊 system_performance_overview_*.png - 系统性能概览")
-    print("🤝 collaboration_analysis_*.png - 协作效果分析") 
-    print("📋 performance_metrics_table_*.png - 性能指标表格")
-    print(f"\n💡 提示：文件名包含时间戳，便于版本管理")
+    print("\n📊 系统性能概览：")
+    print("  - system_performance_overview_*.png - 2x2组合图")
+    print("  - strategy_distribution_*.png - 策略分布饼图")
+    print("  - agent_distribution_*.png - 智能体任务分配图")
+    print("  - duration_histogram_*.png - 时长分布直方图")
+    print("  - weight_duration_scatter_*.png - 重量-时长散点图")
+    
+    print("\n🤝 协作效果分析：")
+    print("  - collaboration_analysis_*.png - 2x2组合图")
+    print("  - strategy_comparison_*.png - 策略对比箱线图")
+    print("  - task_timeline_*.png - 任务执行时间轴")
+    print("  - relay_stages_comparison_*.png - 两阶段时长对比")
+    print("  - collaboration_matrix_*.png - 协作关系矩阵")
+    
+    print("\n📋 性能指标表格：")
+    print("  - performance_metrics_table_*.png - 组合表格")
+    print("  - system_performance_table_*.png - 系统性能表格")
+    print("  - agent_performance_table_*.png - 智能体性能表格")
+    
+    print(f"\n💡 提示：")
+    print("  1. 文件名包含时间戳，便于版本管理")
+    print("  2. 现在您可以选择使用单独的子图或组合图在PPT中展示")
     
     return df, performance_data, agent_data
 

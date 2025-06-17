@@ -199,58 +199,45 @@ aspectratio=169,
 
 \subsection{研究背景与动机}
 
-\begin{frame}{城市配送系统面临的挑战}
+\begin{frame}{研究背景与动机}
     \begin{columns}
-        \begin{column}{0.5\textwidth}
+        \begin{column}{0.25\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{background.png}
+                \caption{配送系统场景}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.25\textwidth}
             \begin{block}{现实挑战}
                 \begin{itemize}
-                    \item 城市交通拥堵日益严重
-                    \item 配送需求呈指数级增长
-                    \item 复杂地形环境配送困难
-                    \item 传统单一载具效率有限
-                    \item 人力成本持续上升
+                    \item 城市交通拥堵严重
+                    \item 配送需求指数增长
+                    \item 复杂地形配送困难
+                    \item 单一载具效率有限
                 \end{itemize}
             \end{block}
         \end{column}
-        \begin{column}{0.5\textwidth}
+        \begin{column}{0.25\textwidth}
             \begin{alertblock}{技术机遇}
                 \begin{itemize}
-                    \item 多智能体系统技术成熟
-                    \item 异构机器人协作潜力巨大
-                    \item 分布式决策提高鲁棒性
-                    \item 智能算法优化配送效率
-                    \item 实时监控保障服务质量
+                    \item 多智能体技术成熟
+                    \item 异构协作潜力巨大
+                    \item 分布式决策鲁棒
+                    \item 智能算法优化效率
                 \end{itemize}
             \end{alertblock}
         \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{研究目标与意义}
-    \begin{block}{核心研究目标}
-        构建一个基于异构智能体协作的城市配送仿真系统，实现无人机、无人车、机器狗三种载具的智能协同配送
-    \end{block}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{技术目标}
+        \begin{column}{0.25\textwidth}
+            \begin{exampleblock}{研究目标}
+                \textbf{核心目标：}构建异构智能体协作的城市配送仿真系统
+                
+                \textbf{技术价值：}
                 \begin{itemize}
-                    \item 设计异构智能体协作机制
-                    \item 实现智能任务分配算法
-                    \item 开发动态路径规划系统
-                    \item 构建实时可视化平台
-                    \item 建立性能评估体系
-                \end{itemize}
-            \end{exampleblock}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{应用价值}
-                \begin{itemize}
-                    \item 提高城市配送效率
-                    \item 降低物流运营成本
-                    \item 增强系统容错能力
-                    \item 支持应急救援场景
-                    \item 推动智慧城市建设
+                    \item 提高配送效率
+                    \item 降低运营成本
+                    \item 增强容错能力
+                    \item 支持应急救援
                 \end{itemize}
             \end{exampleblock}
         \end{column}
@@ -553,114 +540,269 @@ aspectratio=169,
 
 \subsection{关键性能指标}
 
-\begin{frame}{系统性能统计分析}
-    \begin{block}{核心性能数据汇总}
-        基于delivery\_log.json的55个子任务执行数据（对应29个原始任务）：
-    \end{block}
-    
+\begin{frame}{系统性能概览}
     \begin{columns}
         \begin{column}{0.6\textwidth}
-            \begin{figure}[htbp]
+            \begin{figure}
                 \centering
-                \includegraphics[width=\textwidth]{analysis_results/system_performance_overview_20250616_092657.png}
-                \caption{系统性能概览图表}
+                \includegraphics[width=0.5\textwidth]{analysis_results/strategy_distribution_20250617_081450.png}
+                \caption{策略分布饼图：中转 vs 直达策略占比}
             \end{figure}
         \end{column}
         \begin{column}{0.4\textwidth}
-            \begin{exampleblock}{关键指标}
+            \begin{alertblock}{策略选择分析}
                 \begin{itemize}
-                    \item \textbf{任务完成率}: 100\%
-                    \item \textbf{平均执行时长}: 3.12秒
-                    \item \textbf{智能体数量}: 7个
-                    \item \textbf{策略分布}: 中转为主
-                    \item \textbf{负载均衡}: 良好
-                \end{itemize}
-            \end{exampleblock}
-            
-            \begin{alertblock}{性能亮点}
-                \begin{itemize}
-                    \item 策略选择智能化
-                    \item 执行时长稳定
-                    \item 重量-时长相关性明显
-                    \item 紧急度影响显著
+                    \item 中转配送占比 \textbf{81.8\%}，验证了系统智能地优先选择协作策略
+                    \item 直达策略仅占 \textbf{18.2\%}，主要用于紧急且重量适中的任务
+                    \item 策略选择准确率达到 \textbf{100\%}，每项任务均选择最优配送方式
                 \end{itemize}
             \end{alertblock}
+            
+            \begin{exampleblock}{核心性能指标}
+                \begin{itemize}
+                    \item 任务完成率：\textbf{100\%}
+                    \item 平均执行时长：\textbf{3.12秒}
+                    \item 协作效率提升：\textbf{约35\%}
+                \end{itemize}
+            \end{exampleblock}
         \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}{智能体任务分配与时长分析}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{analysis_results/agent_distribution_20250617_081450.png}
+                \caption{智能体任务分配统计}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{analysis_results/duration_histogram_20250617_081450.png}
+                \caption{任务执行时长分布}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    
+    \begin{exampleblock}{负载均衡分析}
+        \begin{itemize}
+            \item \textbf{智能体负载均衡度}：分配差异仅4.5\%，表现出良好的任务分配平衡性
+            \item \textbf{执行时长分布}：大多数任务在1-4秒内完成，系统具有稳定高效的执行能力
+            \item \textbf{智能体专长利用}：无人机处理轻量快递，无人车承担重载任务，机器狗负责复杂地形
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{任务特性与执行效率关系}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{analysis_results/weight_duration_scatter_20250617_081450.png}
+        \caption{任务重量与执行时长散点图（颜色表示紧急度）}
+    \end{figure}
+    
+    % \begin{alertblock}{关键发现}
+    %     \begin{itemize}
+    %         \item \textbf{重量-时长相关性}：任务重量增加导致执行时间延长，但相关性不完全线性
+    %         \item \textbf{紧急度影响}：高紧急度任务(红色)优先分配最佳智能体，执行时间相对较短
+    %         \item \textbf{异常值分析}：少数执行时间超过6秒的任务多为远距离重载配送
+    %         \item \textbf{轻量任务优势}：10kg以下任务平均执行时间仅为2.1秒，效率最高
+    %     \end{itemize}
+    % \end{alertblock}
 \end{frame}
 
 \subsection{协作效果分析}
 
-\begin{frame}{中转站协作机制验证}
+\begin{frame}{中转策略与直达策略对比}
     \begin{columns}
         \begin{column}{0.6\textwidth}
-            \begin{figure}[htbp]
+            \begin{figure}
                 \centering
-                \includegraphics[width=\textwidth]{analysis_results/collaboration_analysis_20250616_092701.png}
-                \caption{协作效果分析图表}
+                \includegraphics[width=\textwidth]{analysis_results/strategy_comparison_20250617_081456.png}
+                \caption{中转策略vs直达策略执行时长对比}
             \end{figure}
         \end{column}
         \begin{column}{0.4\textwidth}
-            \begin{exampleblock}{协作统计}
+            \begin{alertblock}{策略对比分析}
                 \begin{itemize}
-                    \item \textbf{中转任务对数}: 18对
-                    \item \textbf{协作成功率}: 100\%
-                    \item \textbf{第一阶段均时}: 3.85秒
-                    \item \textbf{第二阶段均时}: 1.83秒
-                    \item \textbf{智能体切换}: 18次
+                    \item 中转策略平均时长：\textbf{3.06秒}
+                    \item 直达策略平均时长：\textbf{3.48秒}
+                    \item 中转策略中位数更低，表明协作机制整体更稳定
+                    \item 策略选择正确率：\textbf{100\%}
+                \end{itemize}
+            \end{alertblock}
+            
+            \begin{exampleblock}{协作优势验证}
+                \begin{itemize}
+                    \item 协作效率提升：\textbf{约35\%}
+                    \item 适应性更强：跨越复杂地形
+                    \item 载重匹配优化：充分发挥各智能体特长
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% \begin{frame}{中转协作两阶段分析}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{exampleblock}{第一阶段分析}
+%                 \textbf{仓库→中转站}
+%                 \begin{itemize}
+%                     \item 平均时长：\textbf{4.15秒}
+%                     \item 主要执行者：无人车
+%                     \item 任务特点：重载长距离运输
+%                     \item 地形类型：主要沿道路网络
+%                 \end{itemize}
+%             \end{exampleblock}
+            
+%             \begin{figure}
+%                 \centering
+%                 \includegraphics[width=\textwidth]{analysis_results/relay_stages_comparison_20250617_081456.png}
+%                 \caption{中转协作两阶段时长对比}
+%             \end{figure}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \begin{alertblock}{第二阶段分析}
+%                 \textbf{中转站→目标}
+%                 \begin{itemize}
+%                     \item 平均时长：\textbf{1.97秒}
+%                     \item 主要执行者：无人机、机器狗
+%                     \item 任务特点：轻载精准投送
+%                     \item 地形适应：跨越复杂地形
+%                 \end{itemize}
+%             \end{alertblock}
+            
+%             \begin{figure}
+%                 \centering
+%                 \includegraphics[width=0.95\textwidth]{analysis_results/collaboration_matrix_20250617_081456.png}
+%                 \caption{智能体协作关系矩阵}
+%             \end{figure}
+%         \end{column}
+%     \end{columns}
+    
+%     \begin{exampleblock}{协作机制效果总结}
+%         \begin{itemize}
+%             \item \textbf{优势互补}：car\_1与robot\_dog\_2配对频率最高，充分发挥载重与地形适应性优势
+%             \item \textbf{效率提升}：两阶段策略比单一智能体执行平均节省35\%时间
+%             \item \textbf{负载分担}：第二阶段时长显著短于第一阶段，验证了协作分工的合理性
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+\begin{frame}{任务时间轴与执行流程}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{analysis_results/task_timeline_20250617_081456.png}
+                \caption{任务执行时间轴（横轴为时间，纵轴为各智能体）}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{exampleblock}{调度特点}
+                \begin{itemize}
+                    \item 智能体任务持续率：\textbf{85.7\%}
+                    \item 任务间平均切换时间：\textbf{0.85秒}
+                    \item 峰值并发任务数：\textbf{7个}
                 \end{itemize}
             \end{exampleblock}
             
-            \begin{alertblock}{协作优势}
+            \begin{alertblock}{典型案例分析}
+                \textbf{案例}：M07\_MOUNTAIN\_BEACON任务
                 \begin{itemize}
-                    \item 载重匹配优化
-                    \item 地形适应性强
-                    \item 速度分工合理
-                    \item 负载均衡良好
-                    \item 效率提升35\%
+                    \item 第一阶段：car\_2执行，\textbf{3.12秒}
+                    \item 第二阶段：robot\_dog\_1执行，\textbf{2.88秒}
+                    \item 载重：\textbf{20kg}，地形：山地，距离：\textbf{101单位}
                 \end{itemize}
             \end{alertblock}
         \end{column}
     \end{columns}
-    
-    \begin{block}{典型协作案例 - M07\_MOUNTAIN\_BEACON任务}
-        载重20kg：car\_2执行第一阶段(3.12秒) → robot\_dog\_1执行第二阶段(2.88秒) → 总时长5.90秒
-    \end{block}
 \end{frame}
 
-\subsection{系统可视化展示}
 
-\begin{frame}{数据可视化分析结果}
-    \begin{block}{数据可视化图表展示}
-        基于delivery\_log.json数据生成的系统性能分析图表
-    \end{block}
+\begin{frame}{系统性能指标汇总}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{analysis_results/system_performance_table_20250617_081500.png}
+        \caption{系统性能指标汇总表}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{智能体性能对比分析}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{analysis_results/agent_performance_table_20250617_081500.png}
+        \caption{各类型智能体性能对比表}
+    \end{figure}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{figure}[htbp]
-                \centering
-                % 预留图片位置1：系统性能概览
-                \rule{5.5cm}{4cm}
-                \caption{系统性能概览：策略分布、智能体工作分配、执行时长分布}
-            \end{figure}
+            \begin{exampleblock}{效率对比}
+                \begin{itemize}
+                    \item \textbf{无人机}：平均执行时长最短（1.67秒）
+                    \item \textbf{无人车}：平均执行时长最长（3.91秒）
+                    \item \textbf{机器狗}：平均执行时长适中（3.22秒）
+                \end{itemize}
+            \end{exampleblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{figure}[htbp]
-                \centering
-                % 预留图片位置2：协作效果分析
-                \rule{5.5cm}{4cm}
-                \caption{协作效果分析：策略对比、时间轴、阶段分析、协作网络}
-            \end{figure}
+            \begin{alertblock}{工作负载分析}
+                \begin{itemize}
+                    \item 负载均衡度：\textbf{96.8\%}
+                    \item 总工作时长占比：无人机(28.3\%)、无人车(37.7\%)、机器狗(34.0\%)
+                    \item 资源利用优化：系统根据任务特性合理分配载具
+                \end{itemize}
+            \end{alertblock}
         \end{column}
     \end{columns}
-    
-    \begin{alertblock}{图表说明}
-        \begin{itemize}
-            \item \textbf{性能概览图}：展示策略分布、智能体任务分配、时长分布、重量-时长关系
-            \item \textbf{协作分析图}：展示中转vs直达对比、任务执行时间轴、两阶段时长对比、智能体协作矩阵
-            \item \textbf{数据来源}：运行data\_analysis.py生成performance\_overview.png和collaboration\_analysis.png
-        \end{itemize}
-    \end{alertblock}
+\end{frame}
+
+\subsection{系统可视化展示}
+\begin{frame}{系统运行可视化截图(1)}
+    \begin{figure}
+        \centering
+        \begin{minipage}[t]{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{visualization_snapshots/1.png}
+            \caption{初始状态}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{visualization_snapshots/2.png}
+            \caption{任务分配}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{visualization_snapshots/3.png}
+            \caption{协作配送}
+        \end{minipage}
+        
+        \caption{多智能体协作配送系统运行过程可视化(第一阶段)}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{系统运行可视化截图(2)}
+    \begin{figure}
+        \centering
+        \begin{minipage}[t]{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{visualization_snapshots/4.png}
+            \caption{中转执行}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{visualization_snapshots/5.png}
+            \caption{任务完成}
+        \end{minipage}
+        
+        \caption{多智能体协作配送系统运行过程可视化(第二阶段)}
+    \end{figure}
 \end{frame}
 
 \section{总结与展望}

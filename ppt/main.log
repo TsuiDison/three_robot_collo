@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.5.26)  16 JUN 2025 09:34
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.5.26)  17 JUN 2025 09:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1223,6 +1223,8 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 [4
 
 ]
+File: background.png Graphic file (type bmp)
+<background.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1234,7 +1236,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [5
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1246,7 +1248,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [6
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1258,7 +1260,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [7
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1282,7 +1284,9 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [9
 
-] (./main.toc)
+]
+Missing character: There is no → ("2192) in font ec-lmss10!
+Missing character: There is no → ("2192) in font ec-lmss10!
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1294,9 +1298,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [10
 
-]
-Missing character: There is no → ("2192) in font ec-lmss10!
-Missing character: There is no → ("2192) in font ec-lmss10!
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1308,7 +1310,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [11
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1320,7 +1322,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [12
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1332,7 +1334,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [13
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1344,7 +1346,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [14
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1356,7 +1358,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [15
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1368,7 +1370,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [16
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1380,7 +1382,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [17
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1392,7 +1394,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [18
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1404,7 +1406,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [19
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1416,7 +1418,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [20
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1440,7 +1442,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [22
 
-] (./main.toc)
+]
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1452,7 +1454,7 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [23
 
-]
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1464,7 +1466,9 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [24
 
-] (./main.toc)
+]
+File: analysis_results/strategy_distribution_20250617_081450.png Graphic file (type bmp)
+<analysis_results/strategy_distribution_20250617_081450.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
@@ -1477,12 +1481,14 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 [25
 
 ]
-File: analysis_results/system_performance_overview_20250616_092657.png Graphic file (type bmp)
-<analysis_results/system_performance_overview_20250616_092657.png>
+File: analysis_results/agent_distribution_20250617_081450.png Graphic file (type bmp)
+<analysis_results/agent_distribution_20250617_081450.png>
+File: analysis_results/duration_histogram_20250617_081450.png Graphic file (type bmp)
+<analysis_results/duration_histogram_20250617_081450.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
 
-Overfull \vbox (70.26132pt too high) detected at line 590
+Overfull \vbox (76.11229pt too high) detected at line 597
  []
 
 
@@ -1494,9 +1500,15 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [26
 
-] (./main.toc)
+]
+File: analysis_results/weight_duration_scatter_20250617_081450.png Graphic file (type bmp)
+<analysis_results/weight_duration_scatter_20250617_081450.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
+
+Overfull \vbox (12.40042pt too high) detected at line 614
+ []
+
 
 
 
@@ -1506,18 +1518,9 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [27
 
-]
-File: analysis_results/collaboration_analysis_20250616_092701.png Graphic file (type bmp)
-<analysis_results/collaboration_analysis_20250616_092701.png>
-
-Missing character: There is no → ("2192) in font ec-lmss10!
-Missing character: There is no → ("2192) in font ec-lmss10!
+] (./main.toc)
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
-
-Overfull \vbox (82.1507pt too high) detected at line 629
- []
-
 
 
 
@@ -1527,9 +1530,15 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [28
 
-] (./main.toc)
+]
+File: analysis_results/strategy_comparison_20250617_081456.png Graphic file (type bmp)
+<analysis_results/strategy_comparison_20250617_081456.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
+
+Overfull \vbox (33.28246pt too high) detected at line 646
+ []
+
 
 
 
@@ -1540,12 +1549,10 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 [29
 
 ]
+File: analysis_results/task_timeline_20250617_081456.png Graphic file (type bmp)
+<analysis_results/task_timeline_20250617_081456.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
-
-Overfull \vbox (82.04994pt too high) detected at line 664
- []
-
 
 
 
@@ -1555,9 +1562,15 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 
 [30
 
-] (./main.toc)
+]
+File: analysis_results/system_performance_table_20250617_081500.png Graphic file (type bmp)
+<analysis_results/system_performance_table_20250617_081500.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
+
+Overfull \vbox (78.20549pt too high) detected at line 732
+ []
+
 
 
 
@@ -1568,8 +1581,14 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 [31
 
 ]
+File: analysis_results/agent_performance_table_20250617_081500.png Graphic file (type bmp)
+<analysis_results/agent_performance_table_20250617_081500.png>
 File: sysu_horizontal.png Graphic file (type bmp)
 <sysu_horizontal.png>
+
+Overfull \vbox (149.78244pt too high) detected at line 761
+ []
+
 
 
 
@@ -1592,6 +1611,76 @@ Overfull \hbox (1.4097pt too wide) has occurred while \output is active
 [33
 
 ]
+File: visualization_snapshots/1.png Graphic file (type bmp)
+<visualization_snapshots/1.png>
+File: visualization_snapshots/2.png Graphic file (type bmp)
+<visualization_snapshots/2.png>
+File: visualization_snapshots/3.png Graphic file (type bmp)
+<visualization_snapshots/3.png>
+File: sysu_horizontal.png Graphic file (type bmp)
+<sysu_horizontal.png>
+
+
+
+Overfull \hbox (1.4097pt too wide) has occurred while \output is active
+[][]  [] 
+ []
+
+[34
+
+]
+File: visualization_snapshots/4.png Graphic file (type bmp)
+<visualization_snapshots/4.png>
+File: visualization_snapshots/5.png Graphic file (type bmp)
+<visualization_snapshots/5.png>
+File: sysu_horizontal.png Graphic file (type bmp)
+<sysu_horizontal.png>
+
+
+
+Overfull \hbox (1.4097pt too wide) has occurred while \output is active
+[][]  [] 
+ []
+
+[35
+
+] (./main.toc)
+File: sysu_horizontal.png Graphic file (type bmp)
+<sysu_horizontal.png>
+
+
+
+Overfull \hbox (1.4097pt too wide) has occurred while \output is active
+[][]  [] 
+ []
+
+[36
+
+]
+File: sysu_horizontal.png Graphic file (type bmp)
+<sysu_horizontal.png>
+
+
+
+Overfull \hbox (1.4097pt too wide) has occurred while \output is active
+[][]  [] 
+ []
+
+[37
+
+] (./main.toc)
+File: sysu_horizontal.png Graphic file (type bmp)
+<sysu_horizontal.png>
+
+
+
+Overfull \hbox (1.4097pt too wide) has occurred while \output is active
+[][]  [] 
+ []
+
+[38
+
+]
 \tf@nav=\write6
 \openout6 = `main.nav'.
 
@@ -1607,15 +1696,15 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 64AC2469974FE57FB8418B9978A1C48A;1661.
+(rerunfilecheck)             Checksum: 6EBBEFFE25DBFF48A1B15B36DD234B8B;1660.
  ) 
 Here is how much of TeX's memory you used:
- 54304 strings out of 473832
- 1357952 string characters out of 5724896
- 2253180 words of memory out of 5000000
- 76611 multiletter control sequences out of 15000+600000
+ 54447 strings out of 473832
+ 1364624 string characters out of 5724896
+ 2252180 words of memory out of 5000000
+ 76741 multiletter control sequences out of 15000+600000
  603822 words of font info for 92 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,17n,123p,477b,1037s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (33 pages).
+Output written on main.pdf (38 pages).
