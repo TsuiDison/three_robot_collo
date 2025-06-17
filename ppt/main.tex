@@ -136,7 +136,7 @@ aspectratio=169,
 系统科学与工程学院\\
 指导老师：李雄
 }
-\date{2024.12.25}
+\date{2024.6.18}
 
 \titlegraphic[width=3cm]{sysu_logo}{}
 
@@ -269,6 +269,7 @@ aspectratio=169,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ----------- 建模思路 ----------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{基于BDI的建模}
 
 \section{建模思路}
 
@@ -317,9 +318,9 @@ aspectratio=169,
 
 \subsection{双策略决策机制}
 
-\begin{frame}{智能决策策略}
-    \begin{block}{双策略决策机制}
-        系统为每个任务计算两种策略的成本：
+\begin{frame}{智能决策策略总览}
+    \begin{block}{双策略决策机制：        系统为每个任务计算两种策略的成本}
+
         \begin{enumerate}
             \item \textbf{直达策略}: 智能体直接从仓库配送到目标
             \item \textbf{中转策略}: 通过中转站进行两段式配送
@@ -340,48 +341,162 @@ aspectratio=169,
             \end{alertblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{block}{紧急度权重机制}
+            \begin{exampleblock}{紧急度权重公式}
+                \begin{align}
+                    w_{urgency} &= 1 + u \\
+                    C_{total} &= \frac{C_{path}}{w_{urgency}}
+                \end{align}
                 \begin{itemize}
-                    \item urgency\_weight = 1 + task.urgency
-                    \item total\_cost = path\_cost / urgency\_weight
-                    \item 高紧急度任务获得优先执行权
-                    \item 动态权重调整优化资源分配
+                    \item $u$: 任务紧急度 (1-5级)
+                    \item $C_{path}$: 原始路径成本
+                    \item $C_{total}$: 最终调整后成本
                 \end{itemize}
-            \end{block}
+            \end{exampleblock}
         \end{column}
     \end{columns}
 \end{frame}
 
-\subsection{路径规划算法}
+\begin{frame}{双策略决策机制数学模型}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{直达策略成本公式}
+                \begin{align}
+                    C_{direct} &= \frac{C_{a \to w} + C_{w \to g}}{1 + u} \\
+                    \text{where:} \\
+                    C_{a \to w} &= \frac{d(a,w)}{v_a} \\
+                    C_{w \to g} &= \frac{d(w,g)}{v_a}
+                \end{align}
+                
+                \begin{itemize}
+                    \item $a$: 智能体当前位置
+                    \item $w$: 仓库位置
+                    \item $g$: 目标位置
+                    \item $v_a$: 智能体速度
+                    \item $u$: 任务紧急度
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{中转策略成本公式}
+                \begin{align}
+                    C_{relay} &= \frac{C_{leg1} + C_{leg2} + P_{wait}}{1 + u} \\
+                    \text{where:} \\
+                    C_{leg1} &= \frac{d(a,w) + d(w,r)}{v_{a1}} \\
+                    C_{leg2} &= \frac{d(r,g)}{v_{a2}}
+                \end{align}
+                
+                \begin{itemize}
+                    \item $r$: 中转站位置
+                    \item $v_{a1},v_{a2}$: 第一、二阶段智能体速度
+                    \item $P_{wait}$: 等待惩罚系数
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+    
+    \begin{exampleblock}{优先级队列调度公式}
+        任务队列中的任务按优先级 $p$ 排序：$p = -u + \frac{t_{\text{arrival}}}{10000}$，紧急度越高优先级值越小，越优先
+    \end{exampleblock}
+\end{frame}
 
-\begin{frame}{A*路径规划算法}
-    \begin{block}{路径规划特性}
-        \begin{itemize}
-            \item 基于共享知识地图的启发式搜索
-            \item 支持不同智能体的地形适应性约束
-            \item 处理未知区域的探索惩罚机制
-            \item 8方向搜索优化路径长度
-        \end{itemize}
+\subsection{路径规划算法}
+\begin{frame}{A*算法基本原理}
+    \begin{alertblock}{核心评估函数}
+        \begin{align}
+            f(n) &= g(n) + h(n) \\
+            g(n) &= \text{起点到节点}n\text{的实际成本} \\
+            h(n) &= \text{节点}n\text{到目标的估计成本}
+        \end{align}
+    \end{alertblock}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{启发式函数}
+                \begin{equation}
+                    h(n) = \sqrt{(n_x - g_x)^2 + (n_y - g_y)^2}
+                \end{equation}
+                
+                满足可接受性条件：$h(n) \leq h^*(n)$
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{算法特性}
+                \begin{itemize}
+                    \item 最优性保证
+                    \item 8方向搜索
+                    \item 动态障碍处理
+                    \item 多智能体适配
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{地形成本模型}
+    \begin{block}{路径成本计算}
+        \begin{equation}
+            g_{new}(n) = g(m) + w_{move} + P_{terrain} + P_{unknown}
+        \end{equation}
     \end{block}
     
     \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \begin{exampleblock}{地形通行规则}
-                \begin{itemize}
-                    \item \textbf{无人机}: 所有地形通行，未知区域+10惩罚
-                    \item \textbf{无人车}: 仅道路通行，自动寻找最近道路
-                    \item \textbf{机器狗}: 陆地通行，山地+2惩罚，陡峭+5惩罚
-                    \item \textbf{水域约束}: 只有无人机可以跨越
-                \end{itemize}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{地形惩罚系数}
+                \begin{align}
+                    P_{terrain} = \begin{cases}
+                    0 & \text{道路} \\
+                    2 & \text{山地} \\
+                    5 & \text{陡峭地形} \\
+                    \infty & \text{禁止区域}
+                    \end{cases}
+                \end{align}
             \end{exampleblock}
         \end{column}
-        \begin{column}{0.4\textwidth}
-            \begin{alertblock}{算法优化}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{未知区域处理}
+                \begin{equation}
+                    P_{unknown} = 10 \times \mathbb{I}_{unknown}(n)
+                \end{equation}
+                其中 $\mathbb{I}_{unknown}(n)$ 为未知区域指示函数
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+    
+    \begin{exampleblock}{路径终止条件}
+        \begin{equation}
+            \|pos_{end} - pos_{goal}\| \leq \epsilon, \quad \epsilon = 5.0
+        \end{equation}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{智能体约束适配}
+    \begin{block}{差异化通行能力}
+        \begin{equation}
+            accessible(agent, terrain) = \begin{cases}
+            \text{True} & \text{if } agent \in \{drone\} \\
+            terrain \neq water & \text{if } agent \in \{car, robot\_dog\}
+            \end{cases}
+        \end{equation}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{移动成本权重}
+                \begin{align}
+                    w_{move} &= \begin{cases}
+                    1.0 & \text{直线移动} \\
+                    \sqrt{2} & \text{对角移动}
+                    \end{cases}
+                \end{align}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{性能优化}
                 \begin{itemize}
-                    \item 启发式函数结合地形成本
-                    \item 动态权重调整
-                    \item 路径平滑处理
-                    \item 最终距离阈值检查
+                    \item 优先队列管理：$O(\log n)$
+                    \item 邻居遍历：8方向搜索
+                    \item 路径重构：父节点回溯
+                    \item 内存优化：访问标记
                 \end{itemize}
             \end{alertblock}
         \end{column}
@@ -390,8 +505,8 @@ aspectratio=169,
 
 \subsection{多智能体协调}
 
-\begin{frame}{协调系统架构}
-    \begin{block}{MultiAgentCoordinationSystem核心功能}
+\begin{frame}{多智能体协调算法}
+    \begin{block}{协调系统核心功能}
         \begin{itemize}
             \item \textbf{任务队列管理}: 基于优先队列的紧急度排序
             \item \textbf{智能体状态监控}: 实时追踪所有智能体状态
@@ -402,26 +517,71 @@ aspectratio=169,
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{alertblock}{协调循环(50FPS)}
-                \begin{itemize}
-                    \item 智能体状态更新
-                    \item 中转任务分配
-                    \item 主队列任务处理
-                    \item 系统性能监控
-                \end{itemize}
+            \begin{alertblock}{系统更新频率}
+                \begin{equation}
+                f_{update} = 50 Hz \Rightarrow T_{frame} = 20 ms
+                \end{equation}
             \end{alertblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{日志记录}
-                \begin{itemize}
-                    \item 任务分配记录
-                    \item 路径执行轨迹
-                    \item 完成时间统计
-                    \item JSON格式输出
-                \end{itemize}
+            \begin{exampleblock}{任务调度模型}
+                \begin{align}
+                p_i &= -u_i + \frac{t_{arrival}^i}{10000} \\
+                task^* &= \arg\min_{task_i \in Q} p_i
+                \end{align}
             \end{exampleblock}
         \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}{多智能体协调算法公式}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{任务优先级队列}
+                任务优先级计算：
+                \begin{align}
+                P(task) &= U_{base} \cdot w_{urgency} + w_{time} \cdot T_{wait} \\
+                U_{base} &= 5 \cdot \text{task.urgency} \\
+                T_{wait} &= t_{current} - t_{arrival}
+                \end{align}
+                其中$w_{urgency}$和$w_{time}$为权重系数
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{智能体分配效用函数}
+                \begin{align}
+                U(agent, task) &= \frac{C_{capability} \cdot C_{availability}}{C_{distance}} \\
+                C_{capability} &= 
+                \begin{cases}
+                1.0, & \text{if } w_{task} \leq w_{agent.max} \\
+                0.0, & \text{otherwise}
+                \end{cases} \\
+                C_{availability} &= 1 - \frac{t_{busy}}{t_{total}}
+                \end{align}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{协调系统最优分配算法}
+    \begin{block}{协调系统状态转移}
+        智能体状态转移概率矩阵：
+        \begin{align}
+        P = \begin{pmatrix}
+        0.7 & 0.2 & 0.1 \\
+        0.1 & 0.8 & 0.1 \\
+        0.2 & 0.1 & 0.7
+        \end{pmatrix}
+        \end{align}
+        状态空间：\{idle, delivering, returning\}
+    \end{block}
+    
+    \begin{alertblock}{最优协调分配}
+        \begin{align}
+        A^* = \underset{A}{\arg\max} \sum_{i=1}^{n} \sum_{j=1}^{m} U(agent_i, task_j) \cdot a_{ij}
+        \end{align}
+        约束：$\sum_{j=1}^{m} a_{ij} \leq 1, \forall i \in \{1,2,...,n\}$，$a_{ij} \in \{0,1\}$
+    \end{alertblock}
 \end{frame}
 
 \subsection{环境建模}
@@ -441,8 +601,6 @@ aspectratio=169,
             \begin{exampleblock}{SharedKnowledgeMap}
                 \begin{itemize}
                     \item 共享环境知识库
-                    \item 实时更新机制
-                    \item 未知区域标记
                     \item 批量信息更新
                 \end{itemize}
             \end{exampleblock}
@@ -451,8 +609,6 @@ aspectratio=169,
             \begin{alertblock}{探索机制}
                 \begin{itemize}
                     \item 探索半径：5单位
-                    \item 即时信息共享
-                    \item 未知区域惩罚
                     \item 渐进式地图构建
                 \end{itemize}
             \end{alertblock}
@@ -460,42 +616,121 @@ aspectratio=169,
     \end{columns}
 \end{frame}
 
-\subsection{可视化与日志}
-
-\begin{frame}{实时可视化系统}
-    \begin{block}{DeliveryVisualizer功能}
-        \begin{itemize}
-            \item \textbf{高性能动画}: Matplotlib动画，blit=True优化
-            \item \textbf{多层渲染}: 地形、智能体、路径、任务分层显示
-            \item \textbf{状态监控}: 实时显示任务进度和智能体状态
-            \item \textbf{交互控制}: 支持暂停、继续、速度调整
-        \end{itemize}
-    \end{block}
-    
+\begin{frame}{环境模型与战争迷雾}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{视觉元素}
-                \begin{itemize}
-                    \item 智能体颜色标识
-                    \item 任务路径实时高亮
-                    \item 地形类型色彩编码
-                    \item 动态信息面板
-                \end{itemize}
+            \begin{exampleblock}{战争迷雾模型}
+                智能体可视区域：
+                \begin{align}
+                V(agent) &= \{(x,y) | d(p_{agent}) \leq r_{vision}\} \\
+                K_t(x,y) &= 
+                \begin{cases}
+                Terrain(x,y), & \text{if explored} \\
+                K_{t-1}(x,y), & \text{otherwise}
+                \end{cases}
+                \end{align}
             \end{exampleblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{alertblock}{日志系统}
-                \begin{itemize}
-                    \item LogEntry结构化记录
-                    \item 任务生命周期追踪
-                    \item JSON格式导出
-                    \item 性能分析支持
-                \end{itemize}
+            \begin{alertblock}{Perlin地形生成}
+                \begin{align}
+                P(x,y) &= \sum_{i=1}^{n} w_i \cdot p_i(x \cdot 2^i, y \cdot 2^i) \\
+                \text{Terrain}(x,y) &= 
+                \begin{cases}
+                \text{水域}, & P < -0.4 \\
+                \text{平地}, & -0.4 \leq P < 0.1 \\
+                \text{山地}, & P \geq 0.1
+                \end{cases}
+                \end{align}
             \end{alertblock}
         \end{column}
     \end{columns}
 \end{frame}
 
+\subsection{可视化与日志}
+\begin{frame}{实时可视化系统}
+    \begin{block}{DeliveryVisualizer核心功能}
+        \begin{itemize}
+            \item \textbf{高性能动画}: Matplotlib动画，blit=True优化
+            \item \textbf{交互控制}: 支持暂停、继续、速度调整
+            \item \textbf{实时监控}: 50FPS刷新率，状态实时显示
+        \end{itemize}
+    \end{block}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{可视化更新公式}
+                \begin{align}
+                    I_{map}(t) &= \mathcal{V}(K_t) \\
+                    \forall a_i \in A: P_i(t) &= \mathcal{M}(a_i.pos, t)
+                \end{align}
+                其中:
+                \begin{itemize}
+                    \item $I_{map}(t)$: 地图可视化状态
+                    \item $P_i(t)$: 智能体位置渲染
+                    \item 更新频率: 50FPS
+                \end{itemize}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{日志分析统计}
+                任务性能统计公式:
+                \begin{align}
+                \bar{T} &= \frac{1}{n}\sum_{i=1}^{n}(T_{end}^i - T_{start}^i) \\
+                \sigma_T &= \sqrt{\frac{1}{n}\sum_{i=1}^{n}(T_i - \bar{T})^2}
+                \end{align}
+                
+                支持实时性能监控和任务完成统计分析
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{性能评估指标与数据分析公式}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{配送效率指标}
+                任务完成时间效率：
+                \begin{align}
+                E_{time} &= \frac{1}{N} \sum_{i=1}^{N} \frac{T_{expected}(i)}{T_{actual}(i)} \\
+                T_{expected}(i) &= \frac{d(s_i, g_i)}{v_{agent}} \cdot \alpha_{terrain}
+                \end{align}
+                
+                策略选择正确率：
+                \begin{align}
+                ACC_{strategy} &= \frac{|\{i | C_{i,selected} \leq C_{i,alternative}\}|}{N} \\
+                \end{align}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{负载均衡评估}
+                智能体负载均衡系数：
+                \begin{align}
+                B_{load} &= 1 - \frac{\sigma_{load}}{\mu_{load}} \\
+                \sigma_{load} &= \sqrt{\frac{1}{n} \sum_{i=1}^{n} (L_i - \mu_{load})^2} \\
+                \mu_{load} &= \frac{1}{n} \sum_{i=1}^{n} L_i
+                \end{align}
+                
+                协作效率提升率：
+                \begin{align}
+                \Delta E_{collab} &= \frac{E_{collab} - E_{single}}{E_{single}} \times 100\%
+                \end{align}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+    \end{frame}
+
+    \begin{frame}{数据分析性能评估模型}
+        \begin{block}{中转协作性能模型}
+            中转策略时间效率模型：
+            \begin{align}
+            E_{relay} &= \frac{T_{direct}}{T_{leg1} + T_{leg2} + T_{transfer}} \\
+            T_{transfer} &= \delta_{handoff} \cdot w_{task}
+            \end{align}
+            
+            协作优势条件：$E_{relay} > 1.0$ 表示中转策略优于直达策略
+        \end{block}
+    \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ----------- 模型测试 ----------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -845,9 +1080,55 @@ aspectratio=169,
     \end{center}
 \end{frame}
 
-\section{附录}
+\begin{frame}{未来研究方向的数学建模}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{exampleblock}{强化学习框架}
+                Q-学习更新公式：
+                \begin{align}
+                Q(s,a) &\leftarrow (1-\alpha)Q(s,a) + \alpha[r + \gamma \max_{a'}Q(s',a')] \\
+                \end{align}
+                
+                策略改进：
+                \begin{align}
+                \pi(s) &= \arg\max_a Q(s,a) \\
+                P(a|s) &= \frac{e^{Q(s,a)/\tau}}{\sum_{a'} e^{Q(s,a')/\tau}} \quad \text{(软性选择)}
+                \end{align}
+            \end{exampleblock}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{能耗模型与充电规划}
+                能耗函数：
+                \begin{align}
+                E(d,w,v,\alpha) &= E_{base} + k_1 \cdot d + k_2 \cdot w + k_3 \cdot v^2 + k_4 \cdot \alpha\\
+                \end{align}
+                其中：$d$为距离，$w$为负载，$v$为速度，$\alpha$为地形系数
+                
+                充电决策阈值：
+                \begin{align}
+                \text{NeedCharge} &= 
+                \begin{cases}
+                \text{True}, & \text{if } E_{remain} < E_{required} + E_{safety} \\
+                \text{False}, & \text{otherwise}
+                \end{cases}
+                \end{align}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+    
+    \begin{block}{多目标优化模型}
+        目标函数：
+        \begin{align}
+        \min F(x) &= (f_1(x), f_2(x), ..., f_k(x))^T \\
+        f_1(x) &= \text{总配送时间} \\
+        f_2(x) &= \text{总能耗} \\
+        f_3(x) &= \text{资源利用不平衡度} \\
+        \end{align}
+        
+        Pareto最优解集：$P^* = \{x \in \Omega | \nexists x' \in \Omega, F(x') \prec F(x) \}$
+    \end{block}
+\end{frame}
 
-%\lstinputlisting[caption={Lorenz Attractor Example - animation}]{code/lorenz_attractor2.m}
 \end{document}
 
 
