@@ -580,95 +580,126 @@ aspectratio=169,
                 \end{cases}
                 \end{equation}
                 
-                其中：$C = \frac{\text{路径成本}}{\text{紧急度权重}}$
+                其中：C为依据紧急度修正后的带权成本
             \end{alertblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{紧急度权重公式}
-                \begin{align}
-                    w_{urgency} &= 1 + u \\
-                    C_{total} &= \frac{C_{path}}{w_{urgency}}
-                \end{align}
+            \begin{exampleblock}{紧急度修正量}
                 \begin{itemize}
-                    \item $u$: 任务紧急度 (1-5级)
-                    \item $C_{path}$: 原始路径成本
-                    \item $C_{total}$: 最终调整后成本
+			
+                    \item $权重修正量W_{urgency}=u+1$ 
+				\item u代表任务紧急度，取值（-1，1）
+				
+                    
                 \end{itemize}
             \end{exampleblock}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}{双策略决策机制数学模型}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{直达策略成本公式}
-                \begin{align}
-                    C_{direct} &= \frac{C_{a \to w} + C_{w \to g}}{1 + u} \\
-                    \text{where:} \\
-                    C_{a \to w} &= \frac{d(a,w)}{v_a} \\
-                    C_{w \to g} &= \frac{d(w,g)}{v_a}
-                \end{align}
-                
+\begin{frame}
+  \begin{alertblock}{任务延迟带来的间接成本}
+ \end{alertblock}
+ \begin{exampleblock}{}
+$T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \beta_{terrain_i}} + T_{processing}\right) \times \alpha_{time\_cost}$
+  \end{exampleblock}
+
+ \begin{exampleblock}{}
+
                 \begin{itemize}
-                    \item $a$: 智能体当前位置
-                    \item $w$: 仓库位置
-                    \item $g$: 目标位置
-                    \item $v_a$: 智能体速度
-                    \item $u$: 任务紧急度
+				
+                    \item $D_{segment\_i}$：第i段的距离
+ \item $V_{agent\_base}$：智能体在标准地形的基础速度
+ \item $β_{terrain\_i}$：第i段地形的速度修正因子
+ \item $T_{processing}$：系统处理时间
+ \item $α_{time\_cost}$：时间成本系数
+	
+		
+                    
+                \end{itemize}
+            \end{exampleblock}
+
+\end{frame}	
+
+
+\begin{frame}{双策略决策机制数学模型}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{block}{直达策略成本公式}
+                \vspace*{-2mm}
+                \begin{align}
+                    C_{\mathrm{direct}}^{(1)} &= C_{\mathrm{to\_wh}} + C_{\mathrm{to\_goal}} + T_{\mathrm{delay}} \\
+                    C_{\mathrm{direct}}^{(2)} &= \frac{C_{\mathrm{to\_wh}} + C_{\mathrm{to\_goal}}}{W_{\mathrm{urg}}} + T_{\mathrm{delay}}
+                \end{align}
+                \vspace*{-4mm}
+                \begin{itemize}
+                    \item $C_{\mathrm{to\_wh}}$: 当前位置→仓库
+                    \item $C_{\mathrm{to\_goal}}$: 仓库→目标点
+                    \item $T_{\mathrm{delay}}$: 任务延迟间接成本
+                \end{itemize}
+            \end{block}
+            
+           
+         
+        \end{column}
+        \hfill
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{中转策略成本公式}
+                \vspace*{-2mm}
+                \begin{align}
+                    C_{\mathrm{relay}}^{(1)} &= C_{\mathrm{leg1}} + C_{\mathrm{leg2}} + T_{\mathrm{delay}} + R \\
+                    C_{\mathrm{relay}}^{(2)} &= \frac{C_{\mathrm{leg1}} + C_{\mathrm{leg2}} + R}{W_{\mathrm{urg}}} + T_{\mathrm{delay}}
+                \end{align}
+                \vspace*{-4mm}
+                \begin{itemize}
+                    \item $C_{\mathrm{leg1}}$: 第1段路径成本（到中转站）
+                    \item $C_{\mathrm{leg2}}$: 第2段路径成本（中转站到目标）
+                    \item $R$: 中转惩罚成本
+                \end{itemize}
+            \end{alertblock}
+            
+            
+            \begin{block}{公式说明}
+                \begin{itemize}
+                    \item 上标 (1): 不考虑紧急度
+                    \item 上标 (2): 考虑紧急度加权
+
                 \end{itemize}
             \end{block}
         \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{alertblock}{中转策略成本公式}
-                \begin{align}
-                    C_{relay} &= \frac{C_{leg1} + C_{leg2} + P_{wait}}{1 + u} \\
-                    \text{where:} \\
-                    C_{leg1} &= \frac{d(a,w) + d(w,r)}{v_{a1}} \\
-                    C_{leg2} &= \frac{d(r,g)}{v_{a2}}
-                \end{align}
-                
-                \begin{itemize}
-                    \item $r$: 中转站位置
-                    \item $v_{a1},v_{a2}$: 第一、二阶段智能体速度
-                    \item $P_{wait}$: 等待惩罚系数
-                \end{itemize}
-            \end{alertblock}
-        \end{column}
     \end{columns}
     
-    \begin{exampleblock}{优先级队列调度公式}
-        任务队列中的任务按优先级 $p$ 排序：$p = -u + \frac{t_{\text{arrival}}}{10000}$，紧急度越高优先级值越小，越优先
-    \end{exampleblock}
+    
 \end{frame}
+
+
 
 \subsection{路径规划算法}
 \begin{frame}{A*算法基本原理}
     \begin{alertblock}{核心评估函数}
         \begin{align}
-            f(n) &= g(n) + h(n) \\
-            g(n) &= \text{起点到节点}n\text{的实际成本} \\
-            h(n) &= \text{节点}n\text{到目标的估计成本}
+            g(n+1) &= g(n) + h(n) \\
+            g(n) &= \text{到节点}n\text{的已估计成本} \\
+            h(n) &= \text{节点}n\text{到n+1节点的估计成本}
         \end{align}
     \end{alertblock}
     
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{启发式函数}
+            \begin{exampleblock}{以欧几里德距离为基础，针对不同地形计算}
                 \begin{equation}
                     h(n) = \sqrt{(n_x - g_x)^2 + (n_y - g_y)^2}
                 \end{equation}
                 
-                满足可接受性条件：$h(n) \leq h^*(n)$
+                
             \end{exampleblock}
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{alertblock}{算法特性}
                 \begin{itemize}
-                    \item 最优性保证
-                    \item 8方向搜索
-                    \item 动态障碍处理
-                    \item 多智能体适配
+                    \item 逐个节点分步估计应对不同通行环境
+\item 适应不同智能体的地形通行约束 
+\item 处理战争迷雾场景下的未知区域探索
                 \end{itemize}
             \end{alertblock}
         \end{column}
@@ -678,10 +709,20 @@ aspectratio=169,
 \begin{frame}{地形成本模型}
     \begin{block}{路径成本计算}
         \begin{equation}
-            g_{new}(n) = g(m) + w_{move} + P_{terrain} + P_{unknown}
+           g(n+1) = g(n) + h(n) \times base\_cost \times terrain\_factor + unknown\_penalty
         \end{equation}
     \end{block}
-    
+
+    \begin{itemize}
+\item h(n)：两节点间距离
+\item $base\_cost$：单位距离基础移动成本
+\item $terrain\_factor$：地形因子，平地为1.0，丘陵为2.0，陡峭地形为5.0，道路为0.8（加速）
+\item $unknown\_penalty$：未知区域惩罚值，普通情况为10，道路限制智能体为50
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{地形成本模型}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{exampleblock}{地形惩罚系数}
@@ -696,12 +737,7 @@ aspectratio=169,
             \end{exampleblock}
         \end{column}
         \begin{column}{0.5\textwidth}
-            \begin{alertblock}{未知区域处理}
-                \begin{equation}
-                    P_{unknown} = 10 \times \mathbb{I}_{unknown}(n)
-                \end{equation}
-                其中 $\mathbb{I}_{unknown}(n)$ 为未知区域指示函数
-            \end{alertblock}
+           
         \end{column}
     \end{columns}
     
@@ -710,10 +746,9 @@ aspectratio=169,
             \|pos_{end} - pos_{goal}\| \leq \epsilon, \quad \epsilon = 5.0
         \end{equation}
     \end{exampleblock}
-\end{frame}
 
-\begin{frame}{智能体约束适配}
-    \begin{block}{差异化通行能力}
+
+\begin{block}{差异化通行能力}
         \begin{equation}
             accessible(agent, terrain) = \begin{cases}
             \text{True} & \text{if } agent \in \{drone\} \\
@@ -721,31 +756,7 @@ aspectratio=169,
             \end{cases}
         \end{equation}
     \end{block}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{移动成本权重}
-                \begin{align}
-                    w_{move} &= \begin{cases}
-                    1.0 & \text{直线移动} \\
-                    \sqrt{2} & \text{对角移动}
-                    \end{cases}
-                \end{align}
-            \end{exampleblock}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{alertblock}{性能优化}
-                \begin{itemize}
-                    \item 优先队列管理：$O(\log n)$
-                    \item 邻居遍历：8方向搜索
-                    \item 路径重构：父节点回溯
-                    \item 内存优化：访问标记
-                \end{itemize}
-            \end{alertblock}
-        \end{column}
-    \end{columns}
 \end{frame}
-
 \subsection{多智能体协调}
 
 \begin{frame}{多智能体协调算法}
