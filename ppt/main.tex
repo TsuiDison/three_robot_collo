@@ -601,7 +601,9 @@ aspectratio=169,
   \begin{alertblock}{任务延迟带来的间接成本}
  \end{alertblock}
  \begin{exampleblock}{}
-$T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \beta_{terrain_i}} + T_{processing}\right) \times \alpha_{time\_cost}$
+\begin{equation}
+    T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \beta_{terrain_i}} + T_{processing}\right) \times \alpha_{time\_cost}
+\end{equation}
   \end{exampleblock}
 
  \begin{exampleblock}{}
@@ -679,7 +681,7 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
     \begin{alertblock}{核心评估函数}
         \begin{align}
             f(n) &= g(n) + h(n) \\
-            g(n) &= \text{到节点}n\text{的已估计成本} \\
+            g(n) &= \text{到节点}n\text{的实际成本} \\
             h(n) &= \text{节点}n\text{到目标节点的估计成本}
         \end{align}
     \end{alertblock}
@@ -709,12 +711,14 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 \begin{frame}{地形成本模型}
     \begin{block}{路径成本计算}
         \begin{equation}
-           g(n+1) = g(n) + h(n) \times base\_cost \times terrain\_factor + unknown\_penalty
+           Cost(n+1) = Cost(n) + L(n) \times base\_cost \times terrain\_factor + unknown\_penalty
         \end{equation}
     \end{block}
 
     \begin{itemize}
-\item h(n)：两节点间距离
+        \item $Cost(n)$：当前节点成本
+\item $Cost(n+1)$：下一个节点成本
+\item L(n)：两节点间距离
 \item $base\_cost$：单位距离基础移动成本
 \item $terrain\_factor$：地形因子，平地为1.0，丘陵为2.0，陡峭地形为5.0，道路为0.8（加速）
 \item $unknown\_penalty$：未知区域惩罚值，普通情况为10，道路限制智能体为50
@@ -947,7 +951,7 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 \begin{frame}{测试数据概览}
     \begin{block}{实验配置}
         \begin{itemize}
-            \item \textbf{地图规模}：100×100单位复杂地形环境
+            \item \textbf{地图规模}：$100\times 100$单位复杂地形环境
             \item \textbf{智能体配置}：3架无人机、2辆无人车、2只机器狗
             \item \textbf{任务负载}：22个原始配送任务，45个执行子任务
             \item \textbf{运行时长}：约75秒完整配送周期
@@ -959,7 +963,7 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
             \begin{exampleblock}{任务分布特征}
                 \begin{itemize}
                     \item 重量范围：3.0kg - 49.9kg
-                    \item 紧急度分级：1-5级优先级
+                    \item 紧急度分级：u取值范围为[-1, 1]
                     \item 地形分布：河流、山地、开阔地带
                     \item 距离跨度：短距离和长距离混合
                 \end{itemize}
@@ -1056,15 +1060,15 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 \subsection{协作效果分析}
 
 \begin{frame}{中转策略与直达策略对比}
-    \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \begin{figure}
-                \centering
-                \includegraphics[width=\textwidth]{analysis_results/strategy_comparison_20250617_081456.png}
-                \caption{中转策略vs直达策略执行时长对比}
-            \end{figure}
-        \end{column}
-        \begin{column}{0.4\textwidth}
+    % \begin{columns}
+    %     \begin{column}{0.6\textwidth}
+    %         \begin{figure}
+    %             \centering
+    %             \includegraphics[width=\textwidth]{analysis_results/strategy_comparison_20250617_081456.png}
+    %             \caption{中转策略vs直达策略执行时长对比}
+    %         \end{figure}
+    %     \end{column}
+    %     \begin{column}{0.4\textwidth}
             \begin{alertblock}{策略对比分析}
                 \begin{itemize}
                     \item 中转策略平均时长：\textbf{3.06秒}
@@ -1081,8 +1085,8 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
                     \item 载重匹配优化：充分发挥各智能体特长
                 \end{itemize}
             \end{exampleblock}
-        \end{column}
-    \end{columns}
+    %     \end{column}
+    % \end{columns}
 \end{frame}
 
 % \begin{frame}{中转协作两阶段分析}
