@@ -610,9 +610,9 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 				
                     \item $D_{segment\_i}$：第i段的距离
  \item $V_{agent\_base}$：智能体在标准地形的基础速度
- \item $β_{terrain\_i}$：第i段地形的速度修正因子
+ \item $\beta_{terrain\_i}$：第i段地形的速度修正因子
  \item $T_{processing}$：系统处理时间
- \item $α_{time\_cost}$：时间成本系数
+ \item $\alpha_{time\_cost}$：时间成本系数
 	
 		
                     
@@ -678,9 +678,9 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 \begin{frame}{A*算法基本原理}
     \begin{alertblock}{核心评估函数}
         \begin{align}
-            g(n+1) &= g(n) + h(n) \\
+            f(n) &= g(n) + h(n) \\
             g(n) &= \text{到节点}n\text{的已估计成本} \\
-            h(n) &= \text{节点}n\text{到n+1节点的估计成本}
+            h(n) &= \text{节点}n\text{到目标节点的估计成本}
         \end{align}
     \end{alertblock}
     
@@ -788,55 +788,6 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
     \end{columns}
 \end{frame}
 
-\begin{frame}{多智能体协调算法公式}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{任务优先级队列}
-                任务优先级计算：
-                \begin{align}
-                P(task) &= U_{base} \cdot w_{urgency} + w_{time} \cdot T_{wait} \\
-                U_{base} &= 5 \cdot \text{task.urgency} \\
-                T_{wait} &= t_{current} - t_{arrival}
-                \end{align}
-                其中$w_{urgency}$和$w_{time}$为权重系数
-            \end{exampleblock}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{alertblock}{智能体分配效用函数}
-                \begin{align}
-                U(agent, task) &= \frac{C_{capability} \cdot C_{availability}}{C_{distance}} \\
-                C_{capability} &= 
-                \begin{cases}
-                1.0, & \text{if } w_{task} \leq w_{agent.max} \\
-                0.0, & \text{otherwise}
-                \end{cases} \\
-                C_{availability} &= 1 - \frac{t_{busy}}{t_{total}}
-                \end{align}
-            \end{alertblock}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{协调系统最优分配算法}
-    \begin{block}{协调系统状态转移}
-        智能体状态转移概率矩阵：
-        \begin{align}
-        P = \begin{pmatrix}
-        0.7 & 0.2 & 0.1 \\
-        0.1 & 0.8 & 0.1 \\
-        0.2 & 0.1 & 0.7
-        \end{pmatrix}
-        \end{align}
-        状态空间：\{idle, delivering, returning\}
-    \end{block}
-    
-    \begin{alertblock}{最优协调分配}
-        \begin{align}
-        A^* = \underset{A}{\arg\max} \sum_{i=1}^{n} \sum_{j=1}^{m} U(agent_i, task_j) \cdot a_{ij}
-        \end{align}
-        约束：$\sum_{j=1}^{m} a_{ij} \leq 1, \forall i \in \{1,2,...,n\}$，$a_{ij} \in \{0,1\}$
-    \end{alertblock}
-\end{frame}
 
 \subsection{环境建模}
 
@@ -1297,6 +1248,7 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
 \section{总结与展望}
 
 \begin{frame}{项目总结与贡献}
+    \href{https://github.com/TsuiDison/three_robot_collo}{https://github.com/TsuiDison/three\_robot\_collo}
     \begin{block}{主要技术贡献}
         \begin{itemize}
             \item \textbf{异构智能体协作框架}：设计了三种载具的协同工作机制
@@ -1334,54 +1286,54 @@ $T_{delay} = \left(\sum_{i=1}^{n} \frac{D_{segment_i}}{V_{agent\_base} \times \b
     \end{center}
 \end{frame}
 
-\begin{frame}{未来研究方向的数学建模}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{exampleblock}{强化学习框架}
-                Q-学习更新公式：
-                \begin{align}
-                Q(s,a) &\leftarrow (1-\alpha)Q(s,a) + \alpha[r + \gamma \max_{a'}Q(s',a')] \\
-                \end{align}
+% \begin{frame}{未来研究方向的数学建模}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{exampleblock}{强化学习框架}
+%                 Q-学习更新公式：
+%                 \begin{align}
+%                 Q(s,a) &\leftarrow (1-\alpha)Q(s,a) + \alpha[r + \gamma \max_{a'}Q(s',a')] \\
+%                 \end{align}
                 
-                策略改进：
-                \begin{align}
-                \pi(s) &= \arg\max_a Q(s,a) \\
-                P(a|s) &= \frac{e^{Q(s,a)/\tau}}{\sum_{a'} e^{Q(s,a')/\tau}} \quad \text{(软性选择)}
-                \end{align}
-            \end{exampleblock}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{alertblock}{能耗模型与充电规划}
-                能耗函数：
-                \begin{align}
-                E(d,w,v,\alpha) &= E_{base} + k_1 \cdot d + k_2 \cdot w + k_3 \cdot v^2 + k_4 \cdot \alpha\\
-                \end{align}
-                其中：$d$为距离，$w$为负载，$v$为速度，$\alpha$为地形系数
+%                 策略改进：
+%                 \begin{align}
+%                 \pi(s) &= \arg\max_a Q(s,a) \\
+%                 P(a|s) &= \frac{e^{Q(s,a)/\tau}}{\sum_{a'} e^{Q(s,a')/\tau}} \quad \text{(软性选择)}
+%                 \end{align}
+%             \end{exampleblock}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \begin{alertblock}{能耗模型与充电规划}
+%                 能耗函数：
+%                 \begin{align}
+%                 E(d,w,v,\alpha) &= E_{base} + k_1 \cdot d + k_2 \cdot w + k_3 \cdot v^2 + k_4 \cdot \alpha\\
+%                 \end{align}
+%                 其中：$d$为距离，$w$为负载，$v$为速度，$\alpha$为地形系数
                 
-                充电决策阈值：
-                \begin{align}
-                \text{NeedCharge} &= 
-                \begin{cases}
-                \text{True}, & \text{if } E_{remain} < E_{required} + E_{safety} \\
-                \text{False}, & \text{otherwise}
-                \end{cases}
-                \end{align}
-            \end{alertblock}
-        \end{column}
-    \end{columns}
+%                 充电决策阈值：
+%                 \begin{align}
+%                 \text{NeedCharge} &= 
+%                 \begin{cases}
+%                 \text{True}, & \text{if } E_{remain} < E_{required} + E_{safety} \\
+%                 \text{False}, & \text{otherwise}
+%                 \end{cases}
+%                 \end{align}
+%             \end{alertblock}
+%         \end{column}
+%     \end{columns}
     
-    \begin{block}{多目标优化模型}
-        目标函数：
-        \begin{align}
-        \min F(x) &= (f_1(x), f_2(x), ..., f_k(x))^T \\
-        f_1(x) &= \text{总配送时间} \\
-        f_2(x) &= \text{总能耗} \\
-        f_3(x) &= \text{资源利用不平衡度} \\
-        \end{align}
+%     \begin{block}{多目标优化模型}
+%         目标函数：
+%         \begin{align}
+%         \min F(x) &= (f_1(x), f_2(x), ..., f_k(x))^T \\
+%         f_1(x) &= \text{总配送时间} \\
+%         f_2(x) &= \text{总能耗} \\
+%         f_3(x) &= \text{资源利用不平衡度} \\
+%         \end{align}
         
-        Pareto最优解集：$P^* = \{x \in \Omega | \nexists x' \in \Omega, F(x') \prec F(x) \}$
-    \end{block}
-\end{frame}
+%         Pareto最优解集：$P^* = \{x \in \Omega | \nexists x' \in \Omega, F(x') \prec F(x) \}$
+%     \end{block}
+% \end{frame}
 
 \end{document}
 
