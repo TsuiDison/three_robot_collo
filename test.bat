@@ -25,9 +25,15 @@ if "%choice%"=="1" (
     git merge origin/main
     goto end
 ) else if "%choice%"=="3" (
-    echo Discarding local changes and pulling the latest version...
-    git reset --hard HEAD
-    git pull origin main
+    echo Are you sure you want to discard all local changes and pull the latest version? (y/n)
+    set /p confirm=Enter your choice (y or n):
+    if /i "!confirm!"=="y" (
+        echo Discarding local changes and pulling the latest version...
+        git reset --hard HEAD
+        git pull origin main
+    ) else (
+        echo Action canceled.
+    )
     goto end
 ) else if "%choice%"=="4" (
     echo Setting HTTP/HTTPS proxy for terminal acceleration...
