@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.28)  18 JUN 2025 19:57
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.28)  19 JUN 2025 09:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -580,9 +580,6 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [3
 
 ]
-Missing character: There is no （ (U+FF08) in font [lmroman12-regular]:mapping=t
-ex-text;!
-
 Underfull \hbox (badness 6542) in paragraph at lines 226--227
 []\TU/lmr/m/n/12 • \TU/SimSun(0)/m/n/12 新 任 务 到 达 且 紧 急 度
  []
@@ -605,12 +602,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 288--292
 
 [4
 
-] [5] [6]
-Missing character: There is no β (U+03B2) in font [lmroman12-regular]:mapping=t
-ex-text;!
-Missing character: There is no α (U+03B1) in font [lmroman12-regular]:mapping=t
-ex-text;!
-[7] [8] [9
+] [5] [6] [7] [8] [9
 
 ] (./BDI_simple.aux)
  ***********

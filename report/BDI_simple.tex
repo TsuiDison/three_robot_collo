@@ -223,7 +223,7 @@ Intention（意图） & 智能体承诺执行的具体计划 & 实时决策与�
 
 \rowcolor{lightgray}
 任务分配规则 & \begin{minipage}[t]{5cm}
-• 新任务到达且紧急度$ E \in （-1,1] $
+• 新任务到达且紧急度$ E \in (-1,1] $
 \end{minipage} & \begin{minipage}[t]{6cm}
 • 依据紧急度调整任务队列 \\
 • 考虑任务类型（中转/直达） \\
@@ -349,18 +349,19 @@ $ \text{path}'\\ = \text{DWA}(\text{path}, \text{sensor\_data}) $ \\
 
 核心启发式函数定义如下：
 \begin{equation}
-g(n+1) = g(n) + h(n)
+f(n) = g(n) + h(n)
 \end{equation}
 
 其中：
 \begin{itemize}
-\item $g(n)$ 表示从起点到节点$n$已估计路径成本
-\item $h(n)$ 表示从节点$n$到下一节点的估计成本，使用欧几里得距离：\\$h(n) = \sqrt{(n_x - goal_x)^2 + (n_y - goal_y)^2}$
+\item f(n) 表示估计的总成本
+\item $g(n)$ 表示从起点到节点$n$实际路径成本
+\item $h(n)$ 表示从节点$n$到目标节点的估计成本，使用欧几里得距离：\\$h(n) = \sqrt{(n_x - goal_x)^2 + (n_y - goal_y)^2}$
 \end{itemize}
 
 针对不同地形的成本计算：
 \begin{equation}
-g(n+1) = g(n) + h(n) \times base\_cost \times terrain\_factor + unknown\_penalty
+cos(n+1) = cos(n) + h(n) \times base\_cost \times terrain\_factor + unknown\_penalty
 \end{equation}
 
 其中：
@@ -428,9 +429,9 @@ C_{relay} = \frac{C_{leg1} + C_{leg2}+ {RELAY\_PENALTY}}{urgency\_weight} + T_{t
 \begin{itemize}
  \item D\_{segment\_i}：第i段的距离
  \item V\_{agent\_base}：智能体在标准地形的基础速度
- \item β\_{terrain\_i}：第i段地形的速度修正因子
+ \item $\beta$\_{terrain\_i}：第i段地形的速度修正因子
  \item T\_{processing}：系统处理时间
- \item α\_{time\_cost}：时间成本系数
+ \item $\alpha$\_{time\_cost}：时间成本系数
 
 \end{itemize}
 \item $C_{to\_warehouse}$：从当前位置到仓库的路径成本

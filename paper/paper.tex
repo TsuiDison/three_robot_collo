@@ -424,10 +424,15 @@ BDI在分层协作中的映射：
 
 直达策略的成本计算公式为：
 \begin{align}
-C_{direct} = \frac{C_{to\_warehouse} + C_{to\_goal}}{urgency\_weight}
+C_{direct} = C_{to\_warehouse} + C_{to\_goal} + T_{task\_delay}
 \end{align}
 
-其中，$C_{to\_warehouse}$为从当前位置到仓库的路径成本，$C_{to\_goal}$为从仓库到目标的路径成本，$urgency\_weight$为紧急度权重。
+考虑紧急度，带权路径总成本为：
+\begin{align}
+C_{direct} = \frac{C_{to\_warehouse} + C_{to\_goal} }{urgency\_weight}+ T_{task\_delay}
+\end{align}
+
+其中，$C_{to\_warehouse}$为从当前位置到仓库的路径成本，$C_{to\_goal}$为从仓库到目标的路径成本，$urgency\_weight$为紧急度权重，$T_{task\_delay}$为任务延迟时间带来的间接成本。
 
 \subsubsection{中转策略}
 
@@ -439,7 +444,12 @@ C_{direct} = \frac{C_{to\_warehouse} + C_{to\_goal}}{urgency\_weight}
 
 中转策略的成本计算公式为：
 \begin{align}
-C_{relay} = \frac{C_{leg1} + C_{leg2}}{urgency\_weight} + \frac{RELAY\_WAIT\_PENALTY}{urgency\_weight/2}
+C_{relay} = C_{leg1} + C_{leg2}+ T_{task\_delay} + {RELAY\_PENALTY} 
+\end{align}
+
+考虑紧急度，带权路径总成本为：
+\begin{align}
+C_{relay} = \frac{C_{leg1} + C_{leg2}+ {RELAY\_PENALTY}}{urgency\_weight} + T_{task\_delay}  
 \end{align}
 
 其中，$C_{leg1}$为第一段从仓库到中转站的成本，$C_{leg2}$为第二段从中转站到目标的成本，$RELAY\_WAIT\_PENALTY$为中转等待惩罚值。
@@ -480,7 +490,7 @@ f(n) = g(n) + h(n)
 
 针对不同地形的成本计算：
 \begin{equation}
-g(n_{neighbor}) = g(n_{current}) + base\_cost \times terrain\_factor + unknown\_penalty
+cost(n_{neighbor}) = cost(n_{current}) + base\_cost \times terrain\_factor + unknown\_penalty
 \end{equation}
 
 其中：
