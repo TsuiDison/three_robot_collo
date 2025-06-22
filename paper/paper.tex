@@ -17,6 +17,14 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    pdfpagemode=FullScreen,
+}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{enumitem}
@@ -40,10 +48,44 @@
 
 \maketitle
 
+\begin{table}[h]
+\centering
+
+\label{tab:team-division}
+\begin{tabular}{|>{\centering\arraybackslash}p{6cm}|>{\centering\arraybackslash}p{8cm}|}
+\hline
+\textbf{工作内容} & \textbf{负责成员} \\
+\hline
+\rowcolor{lightgray}
+双策略决策与智能体协调机制设计 & 黄皓凌 \\
+\hline
+多智能体协作配送仿真程序设计 & 黄皓凌、李家龙 \\
+\hline
+\rowcolor{lightgray}
+基于BDI和规则推演的智能体架构 & 岑岱 \\
+\hline
+路径规划及地形环境建模 & 黄皓凌、李家龙 \\
+\hline
+\rowcolor{lightgray}
+测试场景设计及仿真结果分析 & 崔迪生、黄皓凌 \\
+\hline
+项目前期调研及问题分解 & 李梓琳、李家龙 \\
+\hline
+\rowcolor{lightgray}
+课堂汇报 & 崔迪生、李梓琳、黄皓凌 \\
+\hline
+PPT制作 & 崔迪生、岑岱 \\
+\hline
+\rowcolor{lightgray}
+报告撰写 & 崔迪生、岑岱、李梓琳 \\
+\hline
+\end{tabular}
+\end{table}
+
 \begin{abstract}
 随着复杂地形和多样化场景下物流需求的增长，传统配送方式难以满足高效、灵活的服务要求。本文提出一种\textbf{基于分层BDI（Belief-Desire-Intention）认知架构}的异构多智能体协作配送系统，集成无人机、无人车与机器狗三类智能体，通过引入中转协作策略以提升任务执行效率与系统弹性。系统设计包括规则驱动的推理机制、双策略（直达与中转）配送决策模型、改进A*路径规划算法及三层协作框架。仿真结果显示：中转策略相较直达策略可提升约35\%执行效率，系统任务负载均衡度达96.8\%，验证了本系统在多任务分配、路径优化与智能体协同方面的有效性与实用性。该研究为异构智能体在复杂物流环境中的协同优化提供了新路径。
 \end{abstract}
-
+\clearpage
 \tableofcontents
 \newpage
 
@@ -921,6 +963,7 @@ U_{agent} &= \frac{T_{busy}}{T_{total}}
 本文提出了一种基于BDI架构的多智能体协作配送系统，通过集成无人机、无人车和机器狗三类异构智能体，实现了复杂地形下的高效配送任务。系统的核心创新在于将BDI认知架构与多智能体协作机制相结合，设计了双策略决策机制、改进的A*路径规划和三层协作框架。
 
 实验测试表明，该系统在配送效率、任务分配均衡性和协作能力方面表现优异，中转策略比直达策略平均效率提升了35\%，智能体负载均衡度达到96.8\%。这些成果为智能物流领域的实际应用提供了新的解决方案，也为多智能体协作理论在物流领域的应用拓展了新的研究方向。
+
 
 \bibliographystyle{plain}
 \bibliography{references}

@@ -8,7 +8,7 @@
 \contentsline {subsection}{\numberline {2.1}BDI架构概述}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}指挥中心BDI模型}{6}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}异构智能体BDI模型}{6}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}无人机(UAV)BDI模型}{7}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.1}无人机(UAV)BDI模型}{6}{subsubsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.2}无人车(AGV)BDI模型}{7}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}机器狗(Robot Dog)BDI模型}{8}{subsubsection.2.3.3}%
 \contentsline {subsection}{\numberline {2.4}基于规则的推理机制}{8}{subsection.2.4}%
