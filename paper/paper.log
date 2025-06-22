@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.5.26)  22 JUN 2025 10:43
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.5.26)  22 JUN 2025 12:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -800,7 +800,7 @@ File: analysis_results/strategy_distribution_20250617_081450.png Graphic file (t
 [10]
 
 [11]
-Overfull \hbox (73.65141pt too wide) in paragraph at lines 530--531
+Overfull \hbox (73.65141pt too wide) in paragraph at lines 527--528
 []$\OML/cmm/m/it/12 h\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )$ \TU/SimSun(0)/m/n/12 表 示 从 节 点 $\OML/cmm/m/it/12 n$ \TU/SimSun(0)/m/n/12 到 目 标 的 估 计 成 本，|  使 用 欧 几 里 得 距 离：| $\OML/cmm/m/it/12 h\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 ) = []$ 
  []
 
@@ -809,7 +809,7 @@ Overfull \hbox (73.65141pt too wide) in paragraph at lines 530--531
 [12]
 
 [13]
-Overfull \hbox (44.90472pt too wide) detected at line 617
+Overfull \hbox (44.90472pt too wide) detected at line 614
 []
  []
 
@@ -908,7 +908,7 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 Here is how much of TeX's memory you used:
  19398 strings out of 473832
  414048 string characters out of 5724896
- 835488 words of memory out of 5000000
+ 834488 words of memory out of 5000000
  42146 multiletter control sequences out of 15000+600000
  568347 words of font info for 101 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
