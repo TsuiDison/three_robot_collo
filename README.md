@@ -165,7 +165,6 @@ python data_analysis_improved.py
 | 项目前期调研及问题分解（调研） | 李家龙 |
 | 基于BDI和规则推演的智能体架构（建模） | 岑岱、李梓琳 |
 | 多智能体协作配送仿真程序设计(代码、可视化) | 黄皓凌、李家龙 |
-| 路径规划及地形环境建模 | 黄皓凌、李家龙 |
 | 测试场景设计及仿真结果分析 | 崔迪生、黄皓凌 |
 | 课堂汇报 | 崔迪生、黄皓凌、李梓琳 |
 | PPT制作、报告撰写 | 崔迪生、岑岱 |
@@ -191,4 +190,5 @@ python data_analysis_improved.py
 - Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths.
 - 更多参考文献请见论文完整版。
 - Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths.
+- 更多参考文献请见论文完整版。
 - 更多参考文献请见论文完整版。
